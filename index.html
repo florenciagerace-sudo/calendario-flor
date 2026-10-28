@@ -8,22 +8,21 @@
 <style>
   :root {
     --bg-primary: #ffffff;
-    --bg-secondary: #f5f4f2;
-    --bg-tertiary: #eeede9;
-    --text-primary: #1a1a18;
-    --text-secondary: #5f5e5a;
-    --text-tertiary: #9a9890;
-    --border: #e0deda;
-    --border-mid: #cccac4;
+    --bg-secondary: #EDF4F7;
+    --bg-tertiary: #D6EBF3;
+    --text-primary: #1a2a32;
+    --text-secondary: #447F98;
+    --text-tertiary: #629BB5;
+    --border: #B9D8E1;
+    --border-mid: #629BB5;
     --radius: 8px;
     --radius-lg: 12px;
-    --accent: #444441;
-    --accent-hover: #2c2c2a;
+    --accent: #447F98;
+    --accent-hover: #2d6278;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; font-size: 14px; background: var(--bg-tertiary); color: var(--text-primary); min-height: 100vh; }
 
-  /* API KEY SETUP */
   .setup-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
   .setup-card { background: var(--bg-primary); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 32px; max-width: 460px; width: 100%; }
   .setup-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
@@ -36,11 +35,9 @@
   .setup-input-row input { flex: 1; }
   .setup-note { font-size: 11px; color: var(--text-tertiary); margin-top: 10px; }
 
-  /* LAYOUT */
   .app { display: none; flex-direction: column; min-height: 100vh; }
   .app.visible { display: flex; }
 
-  /* TOPBAR */
   .topbar { background: var(--bg-primary); border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; position: sticky; top: 0; z-index: 10; }
   .topbar-left { display: flex; align-items: center; gap: 12px; }
   .topbar-title { font-size: 15px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
@@ -48,7 +45,6 @@
   .topbar-subtitle { font-size: 11px; color: var(--text-tertiary); letter-spacing: 0.03em; }
   .topbar-actions { display: flex; gap: 8px; }
 
-  /* BUTTONS */
   .btn { font-size: 13px; padding: 7px 14px; border-radius: var(--radius); border: 1px solid var(--border-mid); background: var(--bg-primary); color: var(--text-primary); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-family: inherit; transition: background 0.12s; }
   .btn:hover { background: var(--bg-secondary); }
   .btn-dark { background: var(--accent); color: #fff; border-color: var(--accent); }
@@ -58,7 +54,6 @@
   .btn-danger { color: #7a3030; border-color: #c4a0a0; }
   .btn-danger:hover { background: #fdf0f0; }
 
-  /* METRICS */
   .metrics-header { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 14px 20px; display: flex; flex-direction: column; gap: 12px; }
   .metrics-section-label { font-size: 10px; font-weight: 600; color: var(--text-tertiary); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
   .metrics-row-pilares { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
@@ -69,30 +64,28 @@
   .metric-card-num { font-size: 24px; font-weight: 600; line-height: 1; margin-bottom: 3px; }
   .metric-card-sub { font-size: 10px; opacity: 0.65; }
 
-  .mc-humanizar      { background: #4a4a5a; color: #e8e8f0; border-color: #3a3a4a; }
-  .mc-captar         { background: #3d5050; color: #e4eeee; border-color: #2e3e3e; }
-  .mc-educar         { background: #524a3a; color: #eee8dc; border-color: #3e3a2c; }
-  .mc-interaccion    { background: #4e3e3e; color: #eee0dc; border-color: #3c2e2e; }
-  .mc-posicionamiento{ background: #3e4a40; color: #e0ecdf; border-color: #2e3c30; }
-  .mc-instagram      { background: #4a3e52; color: #ede8f0; border-color: #3a2e40; }
-  .mc-facebook       { background: #374455; color: #dde4ee; border-color: #283444; }
-  .mc-linkedin       { background: #304050; color: #d8e4ec; border-color: #223040; }
-  .mc-youtube        { background: #523838; color: #f0e0e0; border-color: #402828; }
+  .mc-humanizar      { background: #447F98; color: #ffffff; border-color: #2d6278; }
+  .mc-captar         { background: #629BB5; color: #ffffff; border-color: #447F98; }
+  .mc-educar         { background: #3a6d84; color: #ffffff; border-color: #2a5268; }
+  .mc-interaccion    { background: #B9D8E1; color: #1a2a32; border-color: #629BB5; }
+  .mc-posicionamiento{ background: #DADEE1; color: #1a2a32; border-color: #B9D8E1; }
+  .mc-instagram      { background: #2d6278; color: #ffffff; border-color: #1e4a5c; }
+  .mc-facebook       { background: #447F98; color: #ffffff; border-color: #2d6278; }
+  .mc-linkedin       { background: #629BB5; color: #ffffff; border-color: #447F98; }
+  .mc-youtube        { background: #B9D8E1; color: #1a2a32; border-color: #629BB5; }
 
-  /* PILARES BAR */
   .pilares-bar { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 9px 20px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
   .pilar-label { font-size: 11px; color: var(--text-tertiary); font-weight: 500; margin-right: 2px; }
   .pilar-badge { font-size: 11px; font-weight: 500; padding: 4px 11px; border-radius: 99px; cursor: pointer; border: 1px solid transparent; transition: opacity 0.15s; }
   .pilar-badge.active { opacity: 1; }
   .pilar-badge:not(.active) { opacity: 0.38; }
-  .pb-todos          { background: var(--bg-tertiary); color: var(--text-secondary); border-color: var(--border-mid); }
-  .pb-humanizar      { background: #e8e8f0; color: #3a3a4a; }
-  .pb-captar         { background: #e4eeee; color: #2e3e3e; }
-  .pb-educar         { background: #eee8dc; color: #3e3a2c; }
-  .pb-interaccion    { background: #eee0dc; color: #3c2e2e; }
-  .pb-posicionamiento{ background: #e0ecdf; color: #2e3c30; }
+  .pb-todos          { background: #DADEE1; color: #1a2a32; border-color: #B9D8E1; }
+  .pb-humanizar      { background: #D6EBF3; color: #2d6278; }
+  .pb-captar         { background: #B9D8E1; color: #2d6278; }
+  .pb-educar         { background: #EDF4F7; color: #447F98; }
+  .pb-interaccion    { background: #D6EBF3; color: #3a6d84; }
+  .pb-posicionamiento{ background: #DADEE1; color: #447F98; }
 
-  /* NAV */
   .nav-calendar { background: var(--bg-primary); border-bottom: 1px solid var(--border); padding: 9px 20px; display: flex; align-items: center; gap: 10px; }
   .week-nav { display: flex; align-items: center; gap: 8px; }
   .week-label { font-size: 13px; font-weight: 500; color: var(--text-primary); min-width: 160px; text-align: center; }
@@ -101,7 +94,6 @@
   .red-tab i { font-size: 14px; }
   .red-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-  /* CALENDAR */
   .calendar-wrap { flex: 1; overflow-x: auto; }
   .calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(110px, 1fr)); border-top: 1px solid var(--border); }
   .day-col { border-right: 1px solid var(--border); display: flex; flex-direction: column; }
@@ -111,7 +103,6 @@
   .day-num { font-size: 20px; font-weight: 500; color: var(--text-primary); line-height: 1.2; margin-top: 1px; }
   .day-num.today { color: #fff; background: var(--accent); width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; margin-top: 2px; }
   .day-body { padding: 7px; display: flex; flex-direction: column; gap: 6px; flex: 1; min-height: 260px; }
-
   .content-card { padding: 8px 9px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-primary); cursor: pointer; transition: border-color 0.12s, box-shadow 0.12s; }
   .content-card:hover { border-color: var(--border-mid); box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
   .card-pilar-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 4px; vertical-align: middle; flex-shrink: 0; }
@@ -119,60 +110,70 @@
   .card-hook { font-size: 11px; font-weight: 500; color: var(--text-primary); line-height: 1.4; margin-bottom: 5px; }
   .card-format-badge { font-size: 10px; padding: 2px 7px; border-radius: 99px; background: var(--bg-secondary); color: var(--text-tertiary); display: inline-flex; align-items: center; gap: 3px; }
   .card-format-badge i { font-size: 10px; }
-
   .add-slot { border: 1px dashed var(--border-mid); border-radius: var(--radius); padding: 8px; display: flex; align-items: center; justify-content: center; gap: 5px; cursor: pointer; color: var(--text-tertiary); font-size: 11px; transition: all 0.12s; }
-  .add-slot:hover { border-color: var(--accent); color: var(--accent); background: #f5f4f2; }
+  .add-slot:hover { border-color: var(--accent); color: var(--accent); background: var(--bg-secondary); }
   .add-slot i { font-size: 15px; }
 
-  /* SIDE PANEL */
   .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.28); z-index: 100; }
   .overlay.open { display: block; }
-  .side-panel { position: fixed; top: 0; right: 0; width: 500px; max-width: 100vw; height: 100vh; background: var(--bg-primary); border-left: 1px solid var(--border); display: flex; flex-direction: column; z-index: 101; transform: translateX(100%); transition: transform 0.22s ease; }
+  .side-panel { position: fixed; top: 0; right: 0; width: 520px; max-width: 100vw; height: 100vh; background: var(--bg-primary); border-left: 1px solid var(--border); display: flex; flex-direction: column; z-index: 101; transform: translateX(100%); transition: transform 0.22s ease; }
   .side-panel.open { transform: translateX(0); }
   .panel-header { padding: 16px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--bg-primary); }
   .panel-title { font-size: 14px; font-weight: 500; color: var(--text-primary); }
-  .panel-body { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 15px; }
+  .panel-body { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 14px; }
 
-  /* MODAL */
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.28); z-index: 200; align-items: center; justify-content: center; }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.28); z-index: 200; align-items: flex-start; justify-content: flex-end; }
   .modal-overlay.open { display: flex; }
-  .modal { width: 480px; max-width: calc(100vw - 32px); max-height: 85vh; background: var(--bg-primary); border-radius: var(--radius-lg); border: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
+  .modal { width: 560px; max-width: 100vw; height: 100vh; background: var(--bg-primary); border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; box-shadow: -4px 0 24px rgba(0,0,0,0.1); }
   .modal-body { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 15px; }
 
-  /* FORM */
+  /* BRAND BRIEF SECTIONS */
+  .brief-section { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .brief-section-header { padding: 10px 14px; background: var(--bg-secondary); cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 600; color: var(--text-primary); letter-spacing: 0.02em; }
+  .brief-section-header i { font-size: 14px; color: var(--text-tertiary); transition: transform 0.2s; }
+  .brief-section-header.open i.chevron { transform: rotate(180deg); }
+  .brief-section-body { padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+
   .field-group { display: flex; flex-direction: column; gap: 6px; }
   .field-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); }
+  .field-hint { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
   input[type="text"], input[type="password"], select, textarea {
     width: 100%; font-size: 13px; border-radius: var(--radius); border: 1px solid var(--border-mid);
     background: var(--bg-primary); color: var(--text-primary); padding: 8px 11px; font-family: inherit;
     transition: border-color 0.12s;
   }
-  input[type="text"]:focus, input[type="password"]:focus, select:focus, textarea:focus {
-    outline: none; border-color: var(--accent);
-  }
-  textarea { resize: vertical; min-height: 75px; line-height: 1.5; }
+  input[type="text"]:focus, input[type="password"]:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
+  textarea { resize: vertical; min-height: 70px; line-height: 1.5; }
 
-  /* RESULTS */
+  /* IMAGE UPLOAD */
+  .img-upload-area { border: 1.5px dashed var(--border-mid); border-radius: var(--radius); padding: 16px; text-align: center; cursor: pointer; transition: all 0.12s; background: var(--bg-secondary); }
+  .img-upload-area:hover { border-color: var(--accent); background: var(--bg-tertiary); }
+  .img-upload-area i { font-size: 24px; color: var(--text-tertiary); margin-bottom: 6px; display: block; }
+  .img-upload-area p { font-size: 12px; color: var(--text-tertiary); }
+  .img-preview { width: 100%; max-height: 120px; object-fit: contain; border-radius: var(--radius); border: 1px solid var(--border); margin-top: 8px; display: none; }
+  #brand-img-input { display: none; }
+
   .result-block { background: var(--bg-secondary); border-radius: var(--radius); border: 1px solid var(--border); padding: 14px; display: flex; flex-direction: column; gap: 12px; }
   .result-section { display: flex; flex-direction: column; gap: 5px; }
   .result-section-title { font-size: 10px; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.07em; }
   .result-text { font-size: 13px; color: var(--text-primary); line-height: 1.65; white-space: pre-wrap; }
   .result-divider { height: 1px; background: var(--border); }
-  .result-copy-btn { align-self: flex-end; font-size: 11px; padding: 3px 9px; }
+  .result-copy-btn { align-self: flex-end; font-size: 11px; padding: 3px 9px; margin-top: 4px; }
 
-  /* SPINNER */
   .spinner-wrap { display: flex; align-items: center; gap: 10px; padding: 18px; color: var(--text-secondary); font-size: 13px; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .spinner { width: 16px; height: 16px; border: 2px solid var(--border-mid); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+  .spinner { width: 16px; height: 16px; border: 2px solid #B9D8E1; border-top-color: #447F98; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
 
-  /* TOAST */
   .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #fff; padding: 9px 22px; border-radius: 99px; font-size: 13px; font-weight: 500; z-index: 999; pointer-events: none; opacity: 0; transition: opacity 0.2s; }
   .toast.show { opacity: 1; }
 
-  /* API KEY BAR */
-  .apikey-bar { background: #eee8dc; border-bottom: 1px solid #d8cdb8; padding: 8px 20px; display: flex; align-items: center; gap: 10px; font-size: 12px; color: #3e3a2c; }
-  .apikey-bar i { font-size: 15px; color: #524a3a; }
-  .apikey-bar a { color: #524a3a; font-weight: 500; cursor: pointer; }
+  .apikey-bar { background: #D6EBF3; border-bottom: 1px solid #B9D8E1; padding: 8px 20px; display: flex; align-items: center; gap: 10px; font-size: 12px; color: #2d6278; }
+  .apikey-bar i { font-size: 15px; color: #447F98; }
+  .apikey-bar a { color: #447F98; font-weight: 500; cursor: pointer; }
+
+  /* RED SOCIAL RULES BADGE */
+  .red-rules { background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 12px; font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+  .red-rules strong { color: var(--text-primary); display: block; margin-bottom: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
 
   @media (max-width: 700px) {
     .metrics-row-pilares { grid-template-columns: repeat(3, 1fr); }
@@ -184,8 +185,7 @@
 </head>
 <body>
 
-<!-- SETUP SCREEN -->
-<div class="setup-screen" id="setup-screen">
+<div class="setup-screen" id="setup-screen" style="display:none;">
   <div class="setup-card">
     <div class="setup-logo">
       <i class="ti ti-calendar-event"></i>
@@ -194,8 +194,7 @@
     <div class="setup-title">Configurá tu API Key de Anthropic</div>
     <div class="setup-desc">
       Para que el generador de ideas con IA funcione, necesitás una API Key de Anthropic.<br><br>
-      Obtené la tuya gratis en <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys → Create Key.<br><br>
-      La clave se guarda solo en tu navegador y nunca sale de tu dispositivo.
+      Obtené la tuya en <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys → Create Key.
     </div>
     <div class="field-group">
       <label class="field-label">API Key</label>
@@ -204,16 +203,14 @@
         <button class="btn btn-dark" onclick="saveApiKey()"><i class="ti ti-arrow-right"></i> Entrar</button>
       </div>
     </div>
-    <div class="setup-note">La clave se guarda en localStorage de tu navegador. No se envía a ningún servidor externo, solo a la API de Anthropic al generar contenido.</div>
+    <div class="setup-note">La clave se guarda en tu navegador y solo se usa para llamar a la API de Anthropic.</div>
   </div>
 </div>
 
-<!-- MAIN APP -->
 <div class="app" id="app">
-
   <div class="apikey-bar" id="apikey-bar" style="display:none;">
     <i class="ti ti-info-circle"></i>
-    <span>No hay API Key configurada. El generador de IA no funcionará.</span>
+    <span>No hay API Key configurada.</span>
     <a onclick="showSetup()">Configurar ahora →</a>
   </div>
 
@@ -225,7 +222,7 @@
       </div>
     </div>
     <div class="topbar-actions">
-      <button class="btn btn-sm" onclick="openConfig()"><i class="ti ti-settings"></i>Configurar empresa</button>
+      <button class="btn btn-sm" onclick="openConfig()"><i class="ti ti-building"></i>Brief de marca</button>
       <button class="btn btn-sm" onclick="changeApiKey()"><i class="ti ti-key"></i>API Key</button>
       <button class="btn btn-dark btn-sm" onclick="openGenerator(null)"><i class="ti ti-sparkles"></i>Generar ideas</button>
     </div>
@@ -254,9 +251,9 @@
 
   <div class="nav-calendar">
     <div class="week-nav">
-      <button class="btn btn-icon" onclick="changeWeek(-1)" aria-label="Semana anterior"><i class="ti ti-chevron-left"></i></button>
+      <button class="btn btn-icon" onclick="changeWeek(-1)"><i class="ti ti-chevron-left"></i></button>
       <span class="week-label" id="week-label">—</span>
-      <button class="btn btn-icon" onclick="changeWeek(1)" aria-label="Semana siguiente"><i class="ti ti-chevron-right"></i></button>
+      <button class="btn btn-icon" onclick="changeWeek(1)"><i class="ti ti-chevron-right"></i></button>
     </div>
     <button class="btn btn-sm" onclick="goToday()">Hoy</button>
     <div class="redes-tabs">
@@ -272,12 +269,12 @@
   </div>
 </div>
 
-<!-- SIDE PANEL GENERADOR -->
+<!-- PANEL GENERADOR -->
 <div class="overlay" id="gen-overlay" onclick="closePanel()"></div>
 <div class="side-panel" id="gen-panel">
   <div class="panel-header">
     <span class="panel-title" id="panel-title">Generador con IA</span>
-    <button class="btn btn-icon" onclick="closePanel()" aria-label="Cerrar"><i class="ti ti-x"></i></button>
+    <button class="btn btn-icon" onclick="closePanel()"><i class="ti ti-x"></i></button>
   </div>
   <div class="panel-body">
     <div class="field-group">
@@ -292,13 +289,14 @@
     </div>
     <div class="field-group">
       <label class="field-label">Red social</label>
-      <select id="gen-red">
+      <select id="gen-red" onchange="updateRedRules()">
         <option>Instagram</option>
         <option>Facebook</option>
         <option>LinkedIn</option>
         <option>YouTube</option>
       </select>
     </div>
+    <div id="red-rules-box" class="red-rules"></div>
     <div class="field-group">
       <label class="field-label">Formato</label>
       <select id="gen-formato">
@@ -311,8 +309,21 @@
     </div>
     <div class="field-group">
       <label class="field-label">Tema o contexto adicional (opcional)</label>
-      <textarea id="gen-contexto" placeholder="Ej: lanzamiento de servicio, tendencia del sector, fecha especial..."></textarea>
+      <textarea id="gen-contexto" placeholder="Ej: lanzamiento de servicio, fecha especial, tendencia del sector..."></textarea>
     </div>
+
+    <!-- IMAGEN DE REFERENCIA -->
+    <div class="field-group">
+      <label class="field-label">Imagen de referencia (opcional)</label>
+      <div class="img-upload-area" onclick="document.getElementById('brand-img-input').click()">
+        <i class="ti ti-photo-up"></i>
+        <p>Subí un logo, imagen de producto o referencia visual</p>
+      </div>
+      <input type="file" id="brand-img-input" accept="image/*" onchange="handleImageUpload(event)">
+      <img id="brand-img-preview" class="img-preview" alt="Preview">
+      <div id="brand-img-status" style="font-size:11px;color:var(--text-tertiary);display:none;">✓ Imagen cargada — la IA la usará como referencia visual</div>
+    </div>
+
     <button class="btn btn-dark" id="gen-btn" onclick="generarIdea()" style="width:100%;justify-content:center;padding:10px;">
       <i class="ti ti-sparkles"></i> Generar contenido
     </button>
@@ -321,29 +332,120 @@
   </div>
 </div>
 
-<!-- MODAL CONFIG EMPRESA -->
+<!-- MODAL BRAND BRIEF -->
 <div class="modal-overlay" id="config-overlay">
   <div class="modal">
     <div class="panel-header">
-      <span class="panel-title">Configuración de la empresa</span>
-      <button class="btn btn-icon" onclick="closeConfig()" aria-label="Cerrar"><i class="ti ti-x"></i></button>
+      <span class="panel-title"><i class="ti ti-building" style="margin-right:6px;color:var(--accent)"></i>Brief de marca</span>
+      <button class="btn btn-icon" onclick="closeConfig()"><i class="ti ti-x"></i></button>
     </div>
     <div class="modal-body">
-      <div class="field-group"><label class="field-label">Nombre de la empresa / cliente</label><input type="text" id="cfg-nombre" placeholder="Ej: Planifi-K"></div>
-      <div class="field-group"><label class="field-label">Sector / industria</label><input type="text" id="cfg-sector" placeholder="Ej: Agencia de marketing digital"></div>
-      <div class="field-group"><label class="field-label">Propuesta de valor central</label><textarea id="cfg-propuesta" placeholder="¿Qué hace esta empresa mejor que nadie? ¿Qué problema resuelve?"></textarea></div>
-      <div class="field-group">
-        <label class="field-label">Tono de comunicación</label>
-        <select id="cfg-tono">
-          <option value="profesional y cercano">Profesional y cercano</option>
-          <option value="inspirador y aspiracional">Inspirador y aspiracional</option>
-          <option value="educativo y didáctico">Educativo y didáctico</option>
-          <option value="disruptivo y directo">Disruptivo y directo</option>
-          <option value="formal y corporativo">Formal y corporativo</option>
-        </select>
+
+      <!-- SECCION 1: IDENTIDAD -->
+      <div class="brief-section">
+        <div class="brief-section-header open" onclick="toggleSection(this)">
+          <span><i class="ti ti-id-badge" style="margin-right:6px"></i>Identidad básica</span>
+          <i class="ti ti-chevron-down chevron"></i>
+        </div>
+        <div class="brief-section-body">
+          <div class="field-group">
+            <label class="field-label">Nombre de la empresa / cliente</label>
+            <input type="text" id="cfg-nombre" placeholder="Ej: Planifi-K">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Sector / industria</label>
+            <input type="text" id="cfg-sector" placeholder="Ej: Logística B2B, Agencia de marketing digital">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Productos y servicios principales</label>
+            <textarea id="cfg-productos" placeholder="Listá los productos o servicios clave que ofrece la marca"></textarea>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Historia / origen de la marca</label>
+            <textarea id="cfg-historia" placeholder="¿Cómo nació? ¿Qué la impulsó? ¿Cuánto tiempo tiene?"></textarea>
+          </div>
+        </div>
       </div>
-      <div class="field-group"><label class="field-label">Público objetivo</label><textarea id="cfg-publico" placeholder="Ej: Dueños de PyMEs en Argentina que quieren crecer digitalmente"></textarea></div>
-      <button class="btn btn-dark" onclick="saveConfig()" style="width:100%;justify-content:center;padding:10px;"><i class="ti ti-device-floppy"></i> Guardar configuración</button>
+
+      <!-- SECCION 2: POSICIONAMIENTO -->
+      <div class="brief-section">
+        <div class="brief-section-header open" onclick="toggleSection(this)">
+          <span><i class="ti ti-target" style="margin-right:6px"></i>Posicionamiento y propuesta de valor</span>
+          <i class="ti ti-chevron-down chevron"></i>
+        </div>
+        <div class="brief-section-body">
+          <div class="field-group">
+            <label class="field-label">Propuesta de valor central</label>
+            <textarea id="cfg-propuesta" placeholder="¿Qué hace esta empresa mejor que nadie? ¿Qué problema resuelve?"></textarea>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Mensaje central / posicionamiento deseado</label>
+            <textarea id="cfg-mensaje" placeholder="¿Cómo quiere ser percibida la marca? ¿Qué lugar quiere ocupar en la mente del cliente?"></textarea>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Diferenciación frente a la competencia</label>
+            <textarea id="cfg-diferenciacion" placeholder="¿Qué tiene esta marca que la competencia no tiene o no comunica?"></textarea>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Contexto actual de la marca</label>
+            <textarea id="cfg-contexto-marca" placeholder="Ej: En etapa de crecimiento, lanzando nueva línea de productos, reposicionándose en el mercado..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCION 3: AUDIENCIA Y TONO -->
+      <div class="brief-section">
+        <div class="brief-section-header open" onclick="toggleSection(this)">
+          <span><i class="ti ti-users" style="margin-right:6px"></i>Audiencia y tono</span>
+          <i class="ti ti-chevron-down chevron"></i>
+        </div>
+        <div class="brief-section-body">
+          <div class="field-group">
+            <label class="field-label">Público objetivo</label>
+            <textarea id="cfg-publico" placeholder="¿Quién es el cliente ideal? Describí su perfil, dolores, motivaciones"></textarea>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Tono de comunicación</label>
+            <select id="cfg-tono">
+              <option value="profesional y cercano">Profesional y cercano</option>
+              <option value="inspirador y aspiracional">Inspirador y aspiracional</option>
+              <option value="educativo y didáctico">Educativo y didáctico</option>
+              <option value="disruptivo y directo">Disruptivo y directo</option>
+              <option value="formal y corporativo">Formal y corporativo</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Qué queremos transmitir / valores de marca</label>
+            <textarea id="cfg-valores" placeholder="Ej: Confianza, innovación, cercanía, expertise, compromiso con el cliente..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCION 4: VOZ Y ESTILO -->
+      <div class="brief-section">
+        <div class="brief-section-header" onclick="toggleSection(this)">
+          <span><i class="ti ti-message-language" style="margin-right:6px"></i>Voz y estilo</span>
+          <i class="ti ti-chevron-down chevron"></i>
+        </div>
+        <div class="brief-section-body" style="display:none;">
+          <div class="field-group">
+            <label class="field-label">Palabras que SÍ representan la marca</label>
+            <textarea id="cfg-palabras-si" placeholder="Ej: ágil, confiable, experto, cercano, estratégico..."></textarea>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Palabras que NO representan la marca</label>
+            <textarea id="cfg-palabras-no" placeholder="Ej: complicado, burocrático, distante, genérico..."></textarea>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Cómo conecta lo que hace con quiénes son</label>
+            <textarea id="cfg-conexion" placeholder="¿Qué hay de auténtico en la forma en que esta marca resuelve el problema? ¿Por qué lo hace ella y no otra?"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-dark" onclick="saveConfig()" style="width:100%;justify-content:center;padding:10px;">
+        <i class="ti ti-device-floppy"></i> Guardar brief de marca
+      </button>
     </div>
   </div>
 </div>
@@ -355,12 +457,70 @@ const DAYS = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
 const REDES = ['Instagram','Facebook','LinkedIn','YouTube'];
 const PILARES_LIST = ['Humanizar','Captar','Educar','Interaccion','Posicionamiento'];
 const PILAR_LABELS = { Humanizar:'Humanizar', Captar:'Captar clientes', Educar:'Educar', Interaccion:'Interacción', Posicionamiento:'Posicionar' };
-const PILAR_DOT = { Humanizar:'#4a4a5a', Captar:'#3d5050', Educar:'#524a3a', Interaccion:'#4e3e3e', Posicionamiento:'#3e4a40' };
-const PILAR_TEXT = { Humanizar:'#3a3a4a', Captar:'#2e3e3e', Educar:'#3e3a2c', Interaccion:'#3c2e2e', Posicionamiento:'#2e3c30' };
+const PILAR_DOT  = { Humanizar:'#447F98', Captar:'#2d6278', Educar:'#3a6d84', Interaccion:'#629BB5', Posicionamiento:'#B9D8E1' };
+const PILAR_TEXT = { Humanizar:'#2d6278', Captar:'#1e4a5c', Educar:'#2a5268', Interaccion:'#447F98', Posicionamiento:'#629BB5' };
 const MC_PILAR = { Humanizar:'mc-humanizar', Captar:'mc-captar', Educar:'mc-educar', Interaccion:'mc-interaccion', Posicionamiento:'mc-posicionamiento' };
-const MC_RED = { Instagram:'mc-instagram', Facebook:'mc-facebook', LinkedIn:'mc-linkedin', YouTube:'mc-youtube' };
+const MC_RED   = { Instagram:'mc-instagram', Facebook:'mc-facebook', LinkedIn:'mc-linkedin', YouTube:'mc-youtube' };
 const RED_ICONS = { Instagram:'ti-brand-instagram', Facebook:'ti-brand-facebook', LinkedIn:'ti-brand-linkedin', YouTube:'ti-brand-youtube' };
 const FORMAT_ICONS = { 'Post':'ti-photo','Carrusel':'ti-layout-grid','Reel / Video corto':'ti-player-play','Story':'ti-device-mobile','Video largo':'ti-video' };
+
+// Reglas específicas por red social
+const RED_RULES = {
+  Instagram: {
+    label: 'Instagram',
+    desc: 'Visual y emocional. Gancho fuerte en la primera línea. Copy corto (hasta 150 palabras). Emojis estratégicos. 5-10 hashtags al final. Reels priorizan audio + texto en pantalla.',
+    prompt: `RED: Instagram
+REGLAS ESPECÍFICAS:
+- El gancho debe ser visual y emocional, diseñado para detener el scroll
+- Copy máximo 150 palabras, párrafos cortos de 1-2 líneas
+- Usar emojis estratégicamente para dar ritmo y emoción
+- Incluir 5-10 hashtags relevantes al final (mezcla de nicho y masivos)
+- Para Reels: describir audio sugerido, texto en pantalla y estructura narrativa en 15-60 segundos
+- Para Carrusel: definir título de portada + estructura de slides
+- Tono: cercano, auténtico, visualmente evocador
+- El brief visual debe ser muy específico: paleta, composición, tipografía, mood board`
+  },
+  Facebook: {
+    label: 'Facebook',
+    desc: 'Informativo y conversacional. Copy más largo permitido (200-400 palabras). Enfocado en alcance orgánico y compartidos. Videos nativos tienen prioridad. Fomenta comentarios con preguntas.',
+    prompt: `RED: Facebook
+REGLAS ESPECÍFICAS:
+- Copy más extenso y narrativo (200-400 palabras), estructura en párrafos claros
+- Apertura con pregunta o dato impactante para fomentar engagement
+- Incluir llamada a comentar o compartir explícita
+- Máximo 2-3 hashtags (Facebook penaliza el exceso)
+- Videos nativos tienen prioridad al feed — si es video, indicar estructura y duración ideal (1-3 min)
+- Tono conversacional, como si hablaras con un conocido
+- El brief visual debe considerar formatos cuadrado (1:1) o horizontal (16:9)`
+  },
+  LinkedIn: {
+    label: 'LinkedIn',
+    desc: 'Profesional y reflexivo. Storytelling largo (400-600 palabras). Primera línea es clave (se corta). Sin exceso de hashtags (3-5 máximo). Enfocado en autoridad y valor para el sector.',
+    prompt: `RED: LinkedIn
+REGLAS ESPECÍFICAS:
+- Primera línea CRÍTICA: debe generar curiosidad o impacto para que hagan clic en "ver más"
+- Storytelling largo y reflexivo (400-600 palabras), con estructura: gancho → historia/contexto → aprendizaje → conclusión
+- Párrafos de 1-3 líneas con espacios entre ellos (no bloques de texto)
+- Máximo 3-5 hashtags al final, muy específicos del sector
+- Evitar lenguaje de venta directa — enfocarse en valor, aprendizaje y autoridad
+- Tono: profesional pero humano, reflexivo, con punto de vista propio
+- Para carrusel/documento: definir título, estructura de slides y datos clave
+- El brief visual debe ser limpio, corporativo y de alta calidad`
+  },
+  YouTube: {
+    label: 'YouTube',
+    desc: 'Buscado por SEO. Título optimizado con keywords. Descripción larga con timestamps. Para Shorts: gancho en 3 segundos, duración 15-60 seg. Para video largo: estructura en capítulos.',
+    prompt: `RED: YouTube
+REGLAS ESPECÍFICAS:
+- El "hook" es el TÍTULO del video — debe tener keywords de búsqueda y generar curiosidad
+- Para video largo: estructura en capítulos (intro, desarrollo, conclusión + timestamps)
+- Para Shorts: gancho visual en los primeros 3 segundos, duración ideal 30-60 segundos, texto en pantalla
+- La descripción debe ser larga (300-500 palabras), con keywords naturales, links y timestamps
+- Incluir CTA para suscripción y comentario
+- Tono: educativo, entretenido, con energía — mantener ritmo para retención
+- El brief visual incluye thumbnail (diseño, texto en imagen, expresión/objeto central)`
+  }
+};
 
 let currentWeekStart = getMonday(new Date());
 let activeRed = 'Instagram';
@@ -368,36 +528,33 @@ let activePilar = 'todos';
 let lastGenerated = null;
 let pendingDay = null;
 let config = {};
+let brandImageBase64 = null;
 
-// ── API KEY ──────────────────────────────────────────
+// ── API KEY ──
 function getApiKey() { return localStorage.getItem('pk_apikey') || ''; }
-
 function saveApiKey() {
   const key = document.getElementById('setup-apikey').value.trim();
   if (!key.startsWith('sk-ant')) { alert('La clave debe comenzar con sk-ant...'); return; }
   localStorage.setItem('pk_apikey', key);
   bootApp();
 }
-
 function changeApiKey() {
-  const current = getApiKey();
-  document.getElementById('setup-apikey').value = current;
+  document.getElementById('setup-apikey').value = getApiKey();
   document.getElementById('setup-screen').style.display = 'flex';
   document.getElementById('app').classList.remove('visible');
 }
-
 function showSetup() { changeApiKey(); }
 
 function bootApp() {
   document.getElementById('setup-screen').style.display = 'none';
   document.getElementById('app').classList.add('visible');
-  const hasKey = !!getApiKey();
-  document.getElementById('apikey-bar').style.display = hasKey ? 'none' : 'flex';
+  document.getElementById('apikey-bar').style.display = getApiKey() ? 'none' : 'flex';
   loadConfig();
   renderAll();
+  updateRedRules();
 }
 
-// ── STORAGE ──────────────────────────────────────────
+// ── STORAGE ──
 function weekStr(d) { return d.toISOString().split('T')[0]; }
 function storageKey(red, ws) { return `pk_posts_${red}_${ws}`; }
 
@@ -422,73 +579,90 @@ function getPostsForWeekRed() {
   try { return JSON.parse(localStorage.getItem(storageKey(activeRed, weekStr(currentWeekStart))) || '{}'); }
   catch(e) { return {}; }
 }
-
 function savePostsForWeekRed(posts) {
   try { localStorage.setItem(storageKey(activeRed, weekStr(currentWeekStart)), JSON.stringify(posts)); }
   catch(e) {}
 }
 
-// ── CONFIG ───────────────────────────────────────────
+// ── CONFIG / BRAND BRIEF ──
 function loadConfig() {
   try { config = JSON.parse(localStorage.getItem('pk_config') || '{}'); } catch(e) { config = {}; }
 }
 
 function saveConfig() {
   config = {
-    nombre:   document.getElementById('cfg-nombre').value,
-    sector:   document.getElementById('cfg-sector').value,
-    propuesta:document.getElementById('cfg-propuesta').value,
-    tono:     document.getElementById('cfg-tono').value,
-    publico:  document.getElementById('cfg-publico').value
+    nombre:         document.getElementById('cfg-nombre').value,
+    sector:         document.getElementById('cfg-sector').value,
+    productos:      document.getElementById('cfg-productos').value,
+    historia:       document.getElementById('cfg-historia').value,
+    propuesta:      document.getElementById('cfg-propuesta').value,
+    mensaje:        document.getElementById('cfg-mensaje').value,
+    diferenciacion: document.getElementById('cfg-diferenciacion').value,
+    contextoMarca:  document.getElementById('cfg-contexto-marca').value,
+    publico:        document.getElementById('cfg-publico').value,
+    tono:           document.getElementById('cfg-tono').value,
+    valores:        document.getElementById('cfg-valores').value,
+    palabrasSi:     document.getElementById('cfg-palabras-si').value,
+    palabrasNo:     document.getElementById('cfg-palabras-no').value,
+    conexion:       document.getElementById('cfg-conexion').value,
   };
   try { localStorage.setItem('pk_config', JSON.stringify(config)); } catch(e) {}
   closeConfig();
-  showToast('Configuración guardada');
+  showToast('Brief de marca guardado');
 }
 
 function openConfig() {
-  document.getElementById('cfg-nombre').value    = config.nombre    || '';
-  document.getElementById('cfg-sector').value    = config.sector    || '';
-  document.getElementById('cfg-propuesta').value = config.propuesta || '';
-  document.getElementById('cfg-tono').value      = config.tono      || 'profesional y cercano';
-  document.getElementById('cfg-publico').value   = config.publico   || '';
+  const fields = ['nombre','sector','productos','historia','propuesta','mensaje','diferenciacion','contextoMarca','publico','tono','valores','palabrasSi','palabrasNo','conexion'];
+  const ids     = ['cfg-nombre','cfg-sector','cfg-productos','cfg-historia','cfg-propuesta','cfg-mensaje','cfg-diferenciacion','cfg-contexto-marca','cfg-publico','cfg-tono','cfg-valores','cfg-palabras-si','cfg-palabras-no','cfg-conexion'];
+  const keys    = ['nombre','sector','productos','historia','propuesta','mensaje','diferenciacion','contextoMarca','publico','tono','valores','palabrasSi','palabrasNo','conexion'];
+  ids.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el) el.value = config[keys[i]] || '';
+  });
   document.getElementById('config-overlay').classList.add('open');
 }
 function closeConfig() { document.getElementById('config-overlay').classList.remove('open'); }
 
-// ── NAVIGATION ───────────────────────────────────────
+function toggleSection(header) {
+  header.classList.toggle('open');
+  const body = header.nextElementSibling;
+  body.style.display = body.style.display === 'none' ? 'flex' : 'none';
+}
+
+// ── RED RULES ──
+function updateRedRules() {
+  const red = document.getElementById('gen-red').value;
+  const rules = RED_RULES[red];
+  if (rules) {
+    document.getElementById('red-rules-box').innerHTML = `<strong><i class="ti ${RED_ICONS[red]}" style="margin-right:4px"></i>${rules.label}</strong>${rules.desc}`;
+  }
+}
+
+// ── NAVIGATION ──
 function getMonday(d) {
   const date = new Date(d); const day = date.getDay();
   date.setDate(date.getDate() + (day === 0 ? -6 : 1 - day));
   date.setHours(0,0,0,0); return date;
 }
-
 function formatWeekLabel(monday) {
   const sunday = new Date(monday); sunday.setDate(sunday.getDate() + 6);
   const opts = { day:'numeric', month:'short' };
   return monday.toLocaleDateString('es-AR', opts) + ' – ' + sunday.toLocaleDateString('es-AR', opts);
 }
-
-function changeWeek(dir) {
-  currentWeekStart.setDate(currentWeekStart.getDate() + dir * 7);
-  renderAll();
-}
-
+function changeWeek(dir) { currentWeekStart.setDate(currentWeekStart.getDate() + dir * 7); renderAll(); }
 function goToday() { currentWeekStart = getMonday(new Date()); renderAll(); }
-
 function switchRed(red, el) {
   activeRed = red;
   document.querySelectorAll('.red-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active'); renderAll();
 }
-
 function filterPilar(pilar, el) {
   activePilar = pilar;
   document.querySelectorAll('.pilar-badge').forEach(b => b.classList.remove('active'));
   el.classList.add('active'); renderCalendar();
 }
 
-// ── METRICS ──────────────────────────────────────────
+// ── METRICS ──
 function renderMetrics() {
   const all = getAllPosts();
   const byPilar = {}; PILARES_LIST.forEach(p => byPilar[p] = 0);
@@ -499,37 +673,25 @@ function renderMetrics() {
   const pilaresEl = document.getElementById('metrics-pilares');
   pilaresEl.innerHTML = '';
   PILARES_LIST.forEach(pilar => {
-    const count = byPilar[pilar];
-    const pct   = total > 0 ? Math.round((count/total)*100) : 0;
-    const card  = document.createElement('div');
-    card.className = `metric-card ${MC_PILAR[pilar]}`;
-    card.title  = `Filtrar por ${PILAR_LABELS[pilar]}`;
+    const count = byPilar[pilar]; const pct = total > 0 ? Math.round((count/total)*100) : 0;
+    const card = document.createElement('div'); card.className = `metric-card ${MC_PILAR[pilar]}`;
     card.onclick = () => { const b = document.querySelector(`.pilar-badge[data-pilar="${pilar}"]`); if(b) filterPilar(pilar,b); };
-    card.innerHTML = `
-      <div class="metric-card-label">${PILAR_LABELS[pilar]}</div>
-      <div class="metric-card-num">${count}</div>
-      <div class="metric-card-sub">${count===1?'publicación':'publicaciones'}${total>0?' · '+pct+'%':''}</div>`;
+    card.innerHTML = `<div class="metric-card-label">${PILAR_LABELS[pilar]}</div><div class="metric-card-num">${count}</div><div class="metric-card-sub">${count===1?'publicación':'publicaciones'}${total>0?' · '+pct+'%':''}</div>`;
     pilaresEl.appendChild(card);
   });
 
   const redesEl = document.getElementById('metrics-redes');
   redesEl.innerHTML = '';
   REDES.forEach(red => {
-    const count = byRed[red];
-    const pct   = total > 0 ? Math.round((count/total)*100) : 0;
-    const card  = document.createElement('div');
-    card.className = `metric-card ${MC_RED[red]}`;
-    card.title  = `Ver calendario de ${red}`;
+    const count = byRed[red]; const pct = total > 0 ? Math.round((count/total)*100) : 0;
+    const card = document.createElement('div'); card.className = `metric-card ${MC_RED[red]}`;
     card.onclick = () => switchRed(red, document.querySelector(`.red-tab[data-red="${red}"]`));
-    card.innerHTML = `
-      <div class="metric-card-label"><i class="ti ${RED_ICONS[red]}" style="font-size:12px;opacity:0.8"></i>${red}</div>
-      <div class="metric-card-num">${count}</div>
-      <div class="metric-card-sub">${count===1?'publicación':'publicaciones'}${total>0?' · '+pct+'%':''}</div>`;
+    card.innerHTML = `<div class="metric-card-label"><i class="ti ${RED_ICONS[red]}" style="font-size:12px;opacity:0.8"></i>${red}</div><div class="metric-card-num">${count}</div><div class="metric-card-sub">${count===1?'publicación':'publicaciones'}${total>0?' · '+pct+'%':''}</div>`;
     redesEl.appendChild(card);
   });
 }
 
-// ── CALENDAR ─────────────────────────────────────────
+// ── CALENDAR ──
 function renderCalendar() {
   const posts = getPostsForWeekRed();
   const grid  = document.getElementById('calendar-grid');
@@ -539,9 +701,7 @@ function renderCalendar() {
 
   for (let i = 0; i < 7; i++) {
     const day = new Date(currentWeekStart); day.setDate(day.getDate() + i);
-    const dayKey  = weekStr(day);
-    const isToday = day.getTime() === today.getTime();
-
+    const dayKey = weekStr(day); const isToday = day.getTime() === today.getTime();
     const col = document.createElement('div'); col.className = 'day-col';
     const hdr = document.createElement('div'); hdr.className = 'day-header';
     const num = document.createElement('div'); num.className = 'day-num' + (isToday ? ' today' : '');
@@ -549,19 +709,13 @@ function renderCalendar() {
     hdr.innerHTML = `<div class="day-name">${DAYS[i]}</div>`; hdr.appendChild(num); col.appendChild(hdr);
 
     const body = document.createElement('div'); body.className = 'day-body';
-    (posts[dayKey]||[])
-      .filter(p => activePilar==='todos' || p.pilar===activePilar)
-      .forEach((post, idx) => {
-        const dot  = PILAR_DOT[post.pilar]  || '#888';
-        const ptxt = PILAR_TEXT[post.pilar] || '#444';
-        const card = document.createElement('div'); card.className = 'content-card';
-        card.onclick = () => openPostDetail(dayKey, idx);
-        card.innerHTML = `
-          <div class="card-meta"><span class="card-pilar-dot" style="background:${dot}"></span><span style="color:${ptxt}">${post.pilar}</span></div>
-          <div class="card-hook">${post.hook||post.copy.substring(0,55)+'...'}</div>
-          <span class="card-format-badge"><i class="ti ${FORMAT_ICONS[post.formato]||'ti-file'}"></i>${post.formato}</span>`;
-        body.appendChild(card);
-      });
+    (posts[dayKey]||[]).filter(p => activePilar==='todos' || p.pilar===activePilar).forEach((post, idx) => {
+      const dot = PILAR_DOT[post.pilar] || '#888'; const ptxt = PILAR_TEXT[post.pilar] || '#444';
+      const card = document.createElement('div'); card.className = 'content-card';
+      card.onclick = () => openPostDetail(dayKey, idx);
+      card.innerHTML = `<div class="card-meta"><span class="card-pilar-dot" style="background:${dot}"></span><span style="color:${ptxt}">${post.pilar}</span></div><div class="card-hook">${post.hook||post.copy.substring(0,55)+'...'}</div><span class="card-format-badge"><i class="ti ${FORMAT_ICONS[post.formato]||'ti-file'}"></i>${post.formato}</span>`;
+      body.appendChild(card);
+    });
 
     const add = document.createElement('div'); add.className = 'add-slot';
     add.onclick = () => openGenerator(dayKey);
@@ -572,7 +726,22 @@ function renderCalendar() {
 
 function renderAll() { renderMetrics(); renderCalendar(); }
 
-// ── PANEL ────────────────────────────────────────────
+// ── IMAGE UPLOAD ──
+function handleImageUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    brandImageBase64 = e.target.result;
+    const preview = document.getElementById('brand-img-preview');
+    preview.src = brandImageBase64;
+    preview.style.display = 'block';
+    document.getElementById('brand-img-status').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── PANEL ──
 function openGenerator(dayKey) {
   pendingDay = dayKey;
   document.getElementById('gen-red').value = activeRed;
@@ -583,13 +752,13 @@ function openGenerator(dayKey) {
   document.getElementById('panel-title').textContent = dayKey ? `Nuevo contenido · ${formatDayLabel(dayKey)}` : 'Generador de ideas con IA';
   document.getElementById('gen-overlay').classList.add('open');
   document.getElementById('gen-panel').classList.add('open');
+  updateRedRules();
 }
 
 function formatDayLabel(dayKey) {
   const d = new Date(dayKey+'T12:00:00');
   return d.toLocaleDateString('es-AR', { weekday:'short', day:'numeric', month:'short' });
 }
-
 function closePanel() {
   document.getElementById('gen-overlay').classList.remove('open');
   document.getElementById('gen-panel').classList.remove('open');
@@ -597,17 +766,17 @@ function closePanel() {
 
 function openPostDetail(dayKey, idx) {
   const posts = getPostsForWeekRed();
-  const post  = (posts[dayKey]||[])[idx]; if(!post) return;
-  pendingDay  = dayKey;
+  const post = (posts[dayKey]||[])[idx]; if(!post) return;
+  pendingDay = dayKey;
   document.getElementById('gen-pilar').value   = post.pilar;
   document.getElementById('gen-red').value     = post.red || activeRed;
   document.getElementById('gen-formato').value = post.formato;
   document.getElementById('panel-title').textContent = 'Detalle del contenido';
   document.getElementById('gen-overlay').classList.add('open');
   document.getElementById('gen-panel').classList.add('open');
+  updateRedRules();
   showGenResult(post); lastGenerated = post;
-  const actEl = document.getElementById('gen-actions');
-  actEl.style.display = 'flex';
+  const actEl = document.getElementById('gen-actions'); actEl.style.display = 'flex';
   actEl.innerHTML = `
     <button class="btn" onclick="generarIdea()" style="width:100%;justify-content:center;"><i class="ti ti-refresh"></i> Regenerar variante</button>
     <button class="btn btn-danger" onclick="deletePost('${dayKey}',${idx})" style="width:100%;justify-content:center;"><i class="ti ti-trash"></i> Eliminar publicación</button>`;
@@ -619,7 +788,7 @@ function deletePost(dayKey, idx) {
   closePanel(); renderAll(); showToast('Publicación eliminada');
 }
 
-// ── GENERATOR ────────────────────────────────────────
+// ── GENERATOR ──
 async function generarIdea() {
   const apiKey = getApiKey();
   if (!apiKey) { showToast('Configurá tu API Key primero'); return; }
@@ -630,47 +799,82 @@ async function generarIdea() {
   const contexto = document.getElementById('gen-contexto').value;
 
   const btn = document.getElementById('gen-btn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span> Generando...';
-
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Generando...';
   const resultEl  = document.getElementById('gen-result');
   const actionsEl = document.getElementById('gen-actions');
   resultEl.innerHTML  = '<div class="spinner-wrap"><span class="spinner"></span> La IA está creando tu contenido...</div>';
   actionsEl.style.display = 'none';
 
-  const empresa  = config.nombre    || 'la empresa';
-  const sector   = config.sector    || 'marketing digital';
-  const propuesta= config.propuesta || 'ayudar a empresas a crecer digitalmente';
-  const tono     = config.tono      || 'profesional y cercano';
-  const publico  = config.publico   || 'empresas y emprendedores';
+  // Brand Brief completo
+  const empresa       = config.nombre         || 'la empresa';
+  const sector        = config.sector         || 'marketing digital';
+  const productos     = config.productos      || '';
+  const historia      = config.historia       || '';
+  const propuesta     = config.propuesta      || 'ayudar a empresas a crecer';
+  const mensaje       = config.mensaje        || '';
+  const diferenciacion= config.diferenciacion || '';
+  const contextoMarca = config.contextoMarca  || '';
+  const publico       = config.publico        || 'empresas y emprendedores';
+  const tono          = config.tono           || 'profesional y cercano';
+  const valores       = config.valores        || '';
+  const palabrasSi    = config.palabrasSi     || '';
+  const palabrasNo    = config.palabrasNo     || '';
+  const conexion      = config.conexion       || '';
 
-  const prompt = `Eres un experto en marketing de contenidos para redes sociales en Argentina.
-Generá una publicación completa y específica para la siguiente empresa.
+  const redRules = RED_RULES[red]?.prompt || '';
+  const tieneImagen = !!brandImageBase64;
 
+  const prompt = `Sos un experto en marketing de contenidos para redes sociales en Argentina y LATAM.
+
+== BRIEF DE MARCA ==
 EMPRESA: ${empresa}
 SECTOR: ${sector}
+${productos ? 'PRODUCTOS/SERVICIOS: '+productos : ''}
+${historia ? 'HISTORIA/ORIGEN: '+historia : ''}
 PROPUESTA DE VALOR: ${propuesta}
-TONO: ${tono}
+${mensaje ? 'MENSAJE CENTRAL/POSICIONAMIENTO: '+mensaje : ''}
+${diferenciacion ? 'DIFERENCIACIÓN: '+diferenciacion : ''}
+${contextoMarca ? 'CONTEXTO ACTUAL: '+contextoMarca : ''}
 PÚBLICO OBJETIVO: ${publico}
-RED SOCIAL: ${red}
+TONO: ${tono}
+${valores ? 'VALORES/QUÉ TRANSMITIR: '+valores : ''}
+${palabrasSi ? 'PALABRAS QUE SÍ REPRESENTAN LA MARCA: '+palabrasSi : ''}
+${palabrasNo ? 'PALABRAS QUE NO REPRESENTAN LA MARCA: '+palabrasNo : ''}
+${conexion ? 'AUTENTICIDAD DE LA MARCA: '+conexion : ''}
+
+== PARÁMETROS DE PUBLICACIÓN ==
 PILAR DE CONTENIDO: ${pilar}
 FORMATO: ${formato}
-${contexto ? 'CONTEXTO ADICIONAL: '+contexto : ''}
+${contexto ? 'CONTEXTO/TEMA ESPECÍFICO: '+contexto : ''}
+${tieneImagen ? 'NOTA: El usuario adjuntó una imagen de referencia visual de la marca. Considerala para el brief visual.' : ''}
 
-Reglas:
-- Adaptá el copy 100% al estilo y algoritmo de ${red}
-- Usá emojis si aplica a la red
-- Incluí hashtags al final si aplica
-- El brief visual debe ser detallado para briefear un diseñador o usar en Midjourney/IA generativa
+${redRules}
+
+== INSTRUCCIÓN ==
+Generá una publicación 100% específica para esta marca, adaptada al estilo de ${red}. 
+NO seas genérico. Usá el brief de marca para que el contenido suene auténtico y diferenciado.
 
 Respondé SOLO con JSON válido, sin markdown, sin backticks, sin texto extra:
-{"hook":"gancho de apertura potente, max 15 palabras","copy":"copy completo listo para publicar","visual":"descripción detallada de imagen/video: composición, colores, elementos, texto en imagen, estilo visual, referencias","cta":"llamada a la acción específica","notas":"notas de producción para ${red}: dimensiones recomendadas, duración si es video, tips de formato y publicación"}`;
+{"hook":"gancho de apertura potente y específico para la marca, max 15 palabras","copy":"copy completo listo para publicar, adaptado al tono y algoritmo de ${red}, con emojis si aplica y hashtags al final si aplica","visual":"descripción detallada de la imagen o video para briefear al diseñador o usar en Midjourney: composición, colores (coherentes con la marca), elementos, texto en imagen, estilo visual, mood, referencias estéticas","cta":"llamada a la acción específica y coherente con el pilar y la red","notas":"notas de producción para ${red}: dimensiones recomendadas, duración si es video, tips de formato, mejor horario de publicación"}`;
 
   try {
+    // Construir el mensaje — con imagen si fue subida
+    let messageContent;
+    if (brandImageBase64) {
+      const base64Data = brandImageBase64.split(',')[1];
+      const mimeType   = brandImageBase64.split(';')[0].split(':')[1];
+      messageContent = [
+        { type: 'image', source: { type: 'base64', media_type: mimeType, data: base64Data } },
+        { type: 'text', text: prompt }
+      ];
+    } else {
+      messageContent = prompt;
+    }
+
     const resp = await fetch('/.netlify/functions/claude', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt, apiKey })
+      body: JSON.stringify({ prompt: messageContent, apiKey, hasImage: !!brandImageBase64 })
     });
 
     if (!resp.ok) {
@@ -690,10 +894,7 @@ Respondé SOLO con JSON válido, sin markdown, sin backticks, sin texto extra:
       <button class="btn" onclick="generarIdea()" style="width:100%;justify-content:center;"><i class="ti ti-refresh"></i> Regenerar</button>`;
 
   } catch(e) {
-    resultEl.innerHTML = `<div style="padding:14px;color:#7a3030;font-size:13px;background:#fdf0f0;border-radius:8px;border:1px solid #e8c4c4;">
-      <strong>Error al generar</strong><br>${e.message}<br><br>
-      <small>Verificá que tu API Key sea válida en Configuración → API Key.</small>
-    </div>`;
+    resultEl.innerHTML = `<div style="padding:14px;color:#7a3030;font-size:13px;background:#fdf0f0;border-radius:8px;border:1px solid #e8c4c4;"><strong>Error al generar</strong><br>${e.message}<br><br><small>Verificá tu API Key en el botón "API Key".</small></div>`;
   }
 
   btn.disabled = false;
@@ -742,23 +943,20 @@ function guardarEnCalendario() {
   showToast('Publicación guardada en el calendario');
 }
 
-// ── UTILS ─────────────────────────────────────────────
 function escHtml(str) {
   if (!str) return '';
   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
 }
-
 function copyText(text) {
   navigator.clipboard.writeText(text).then(() => showToast('Texto copiado')).catch(() => showToast('No se pudo copiar'));
 }
-
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2400);
 }
 
-// ── BOOT ─────────────────────────────────────────────
+// ── BOOT ──
 const storedKey = getApiKey();
 if (storedKey) { bootApp(); }
 else { document.getElementById('setup-screen').style.display = 'flex'; }
