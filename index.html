@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calendario de Contenido — Planifi-K</title>
+<title>Calendario de Contenido con IA</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css">
 <style>
   :root {
@@ -39,7 +39,6 @@
   .app.visible { display: flex; }
 
   .topbar { background: var(--bg-primary); border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; position: sticky; top: 0; z-index: 10; }
-  .topbar-left { display: flex; align-items: center; gap: 12px; }
   .topbar-title { font-size: 15px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
   .topbar-title i { font-size: 18px; color: var(--accent); }
   .topbar-subtitle { font-size: 11px; color: var(--text-tertiary); letter-spacing: 0.03em; }
@@ -47,17 +46,19 @@
 
   .btn { font-size: 13px; padding: 7px 14px; border-radius: var(--radius); border: 1px solid var(--border-mid); background: var(--bg-primary); color: var(--text-primary); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-family: inherit; transition: background 0.12s; }
   .btn:hover { background: var(--bg-secondary); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
   .btn-dark { background: var(--accent); color: #fff; border-color: var(--accent); }
   .btn-dark:hover { background: var(--accent-hover); }
   .btn-sm { font-size: 12px; padding: 5px 11px; }
-  .btn-icon { width: 30px; height: 30px; padding: 0; justify-content: center; border-radius: var(--radius); font-size: 16px; }
+  .btn-icon { width: 30px; height: 30px; padding: 0; justify-content: center; border-radius: var(--radius); font-size: 16px; flex-shrink: 0; }
   .btn-danger { color: #7a3030; border-color: #c4a0a0; }
   .btn-danger:hover { background: #fdf0f0; }
+  .btn-block { width: 100%; justify-content: center; padding: 10px; }
 
   .metrics-header { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 14px 20px; display: flex; flex-direction: column; gap: 12px; }
   .metrics-section-label { font-size: 10px; font-weight: 600; color: var(--text-tertiary); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
   .metrics-row-pilares { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
-  .metrics-row-redes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .metrics-row-redes { display: grid; grid-template-columns: repeat(var(--cols, 4), 1fr); gap: 8px; }
   .metric-card { border-radius: var(--radius); padding: 11px 13px; cursor: pointer; transition: opacity 0.15s, transform 0.1s; border: 1px solid transparent; }
   .metric-card:hover { opacity: 0.88; transform: translateY(-1px); }
   .metric-card-label { font-size: 10px; font-weight: 500; letter-spacing: 0.03em; display: flex; align-items: center; gap: 5px; margin-bottom: 4px; }
@@ -69,10 +70,11 @@
   .mc-educar         { background: #3a6d84; color: #ffffff; border-color: #2a5268; }
   .mc-interaccion    { background: #B9D8E1; color: #1a2a32; border-color: #629BB5; }
   .mc-posicionamiento{ background: #DADEE1; color: #1a2a32; border-color: #B9D8E1; }
-  .mc-instagram      { background: #2d6278; color: #ffffff; border-color: #1e4a5c; }
-  .mc-facebook       { background: #447F98; color: #ffffff; border-color: #2d6278; }
-  .mc-linkedin       { background: #629BB5; color: #ffffff; border-color: #447F98; }
-  .mc-youtube        { background: #B9D8E1; color: #1a2a32; border-color: #629BB5; }
+
+  .mc-meta     { background: #2d6278; color: #ffffff; border-color: #1e4a5c; }
+  .mc-linkedin { background: #447F98; color: #ffffff; border-color: #2d6278; }
+  .mc-youtube  { background: #629BB5; color: #ffffff; border-color: #447F98; }
+  .mc-tiktok   { background: #B9D8E1; color: #1a2a32; border-color: #629BB5; }
 
   .pilares-bar { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 9px 20px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
   .pilar-label { font-size: 11px; color: var(--text-tertiary); font-weight: 500; margin-right: 2px; }
@@ -90,7 +92,7 @@
   .week-nav { display: flex; align-items: center; gap: 8px; }
   .week-label { font-size: 13px; font-weight: 500; color: var(--text-primary); min-width: 160px; text-align: center; }
   .redes-tabs { display: flex; gap: 4px; margin-left: auto; }
-  .red-tab { font-size: 11px; font-weight: 500; padding: 5px 11px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-primary); color: var(--text-secondary); cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.12s; }
+  .red-tab { font-size: 11px; font-weight: 500; padding: 5px 11px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg-primary); color: var(--text-secondary); cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.12s; font-family: inherit; }
   .red-tab i { font-size: 14px; }
   .red-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
@@ -118,25 +120,31 @@
   .overlay.open { display: block; }
   .side-panel { position: fixed; top: 0; right: 0; width: 520px; max-width: 100vw; height: 100vh; background: var(--bg-primary); border-left: 1px solid var(--border); display: flex; flex-direction: column; z-index: 101; transform: translateX(100%); transition: transform 0.22s ease; }
   .side-panel.open { transform: translateX(0); }
-  .panel-header { padding: 16px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--bg-primary); }
+  .panel-header { padding: 16px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--bg-primary); flex-shrink: 0; }
   .panel-title { font-size: 14px; font-weight: 500; color: var(--text-primary); }
-  .panel-body { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 14px; }
+  .panel-body { flex: 1; min-height: 0; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 14px; }
+  .panel-body > * { flex-shrink: 0; }
 
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.28); z-index: 200; align-items: flex-start; justify-content: flex-end; }
   .modal-overlay.open { display: flex; }
-  .modal { width: 560px; max-width: 100vw; height: 100vh; background: var(--bg-primary); border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; box-shadow: -4px 0 24px rgba(0,0,0,0.1); }
-  .modal-body { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 15px; }
+  .modal { width: 580px; max-width: 100vw; height: 100vh; background: var(--bg-primary); border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; box-shadow: -4px 0 24px rgba(0,0,0,0.1); }
+  .modal-body { flex: 1; min-height: 0; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+  .modal-body > * { flex-shrink: 0; }
+  .modal-footer { padding: 12px 18px; border-top: 1px solid var(--border); background: var(--bg-primary); flex-shrink: 0; }
+  .modal-intro { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
 
-  /* BRAND BRIEF SECTIONS */
-  .brief-section { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-  .brief-section-header { padding: 10px 14px; background: var(--bg-secondary); cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 600; color: var(--text-primary); letter-spacing: 0.02em; }
-  .brief-section-header i { font-size: 14px; color: var(--text-tertiary); transition: transform 0.2s; }
-  .brief-section-header.open i.chevron { transform: rotate(180deg); }
+  /* BRIEF SECTIONS (acordeón) */
+  .brief-section { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; flex-shrink: 0; }
+  .brief-section-header { padding: 11px 14px; background: var(--bg-secondary); cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 600; color: var(--text-primary); letter-spacing: 0.02em; user-select: none; }
+  .brief-section-header .chevron { font-size: 14px; color: var(--text-tertiary); transition: transform 0.2s; transform: rotate(180deg); }
+  .brief-section.collapsed .chevron { transform: rotate(0deg); }
   .brief-section-body { padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+  .brief-section.collapsed .brief-section-body { display: none; }
 
   .field-group { display: flex; flex-direction: column; gap: 6px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .field-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); }
-  .field-hint { font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
+  .field-hint { font-size: 11px; color: var(--text-tertiary); line-height: 1.4; }
   input[type="text"], input[type="password"], select, textarea {
     width: 100%; font-size: 13px; border-radius: var(--radius); border: 1px solid var(--border-mid);
     background: var(--bg-primary); color: var(--text-primary); padding: 8px 11px; font-family: inherit;
@@ -145,41 +153,91 @@
   input[type="text"]:focus, input[type="password"]:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
   textarea { resize: vertical; min-height: 70px; line-height: 1.5; }
 
-  /* IMAGE UPLOAD */
-  .img-upload-area { border: 1.5px dashed var(--border-mid); border-radius: var(--radius); padding: 16px; text-align: center; cursor: pointer; transition: all 0.12s; background: var(--bg-secondary); }
-  .img-upload-area:hover { border-color: var(--accent); background: var(--bg-tertiary); }
-  .img-upload-area i { font-size: 24px; color: var(--text-tertiary); margin-bottom: 6px; display: block; }
-  .img-upload-area p { font-size: 12px; color: var(--text-tertiary); }
+  /* COLORES */
+  .color-row { display: grid; grid-template-columns: 40px 110px 1fr 30px; gap: 8px; align-items: center; }
+  .color-row input[type="color"] { width: 40px; height: 34px; padding: 2px; border: 1px solid var(--border-mid); border-radius: var(--radius); background: var(--bg-primary); cursor: pointer; }
+  .color-row input[type="text"] { font-family: ui-monospace, Consolas, monospace; text-transform: uppercase; }
+
+  /* CHIPS */
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font-size: 12px; padding: 5px 11px; border-radius: 99px; border: 1px solid var(--border-mid); background: var(--bg-primary); color: var(--text-secondary); cursor: pointer; font-family: inherit; transition: all 0.12s; }
+  .chip:hover { background: var(--bg-secondary); }
+  .chip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* ARCHIVOS */
+  .drop-area { border: 1.5px dashed var(--border-mid); border-radius: var(--radius); padding: 16px; text-align: center; cursor: pointer; transition: all 0.12s; background: var(--bg-secondary); }
+  .drop-area:hover { border-color: var(--accent); background: var(--bg-tertiary); }
+  .drop-area i { font-size: 24px; color: var(--text-tertiary); margin-bottom: 6px; display: block; }
+  .drop-area p { font-size: 12px; color: var(--text-tertiary); }
+  .thumb-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .thumb { position: relative; aspect-ratio: 1; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: #fff; }
+  .thumb img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .thumb-x { position: absolute; top: 3px; right: 3px; width: 20px; height: 20px; border-radius: 50%; border: none; background: rgba(26,42,50,0.75); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+  .file-box { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-secondary); font-size: 12px; color: var(--text-primary); }
+  .file-box i { font-size: 20px; color: var(--accent); }
+  .file-box .file-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .file-status { font-size: 11px; color: var(--text-tertiary); }
+  .hidden-input { display: none; }
   .img-preview { width: 100%; max-height: 120px; object-fit: contain; border-radius: var(--radius); border: 1px solid var(--border); margin-top: 8px; display: none; }
-  #brand-img-input { display: none; }
 
   .result-block { background: var(--bg-secondary); border-radius: var(--radius); border: 1px solid var(--border); padding: 14px; display: flex; flex-direction: column; gap: 12px; }
   .result-section { display: flex; flex-direction: column; gap: 5px; }
   .result-section-title { font-size: 10px; font-weight: 600; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.07em; }
-  .result-text { font-size: 13px; color: var(--text-primary); line-height: 1.65; white-space: pre-wrap; }
+  .result-text { font-size: 13px; color: var(--text-primary); line-height: 1.65; }
   .result-divider { height: 1px; background: var(--border); }
   .result-copy-btn { align-self: flex-end; font-size: 11px; padding: 3px 9px; margin-top: 4px; }
 
   .spinner-wrap { display: flex; align-items: center; gap: 10px; padding: 18px; color: var(--text-secondary); font-size: 13px; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .spinner { width: 16px; height: 16px; border: 2px solid #B9D8E1; border-top-color: #447F98; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+  .spinner { width: 16px; height: 16px; border: 2px solid #B9D8E1; border-top-color: #447F98; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; display: inline-block; }
+  .btn-dark .spinner { border-color: rgba(255,255,255,0.4); border-top-color: #fff; }
 
-  .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #fff; padding: 9px 22px; border-radius: 99px; font-size: 13px; font-weight: 500; z-index: 999; pointer-events: none; opacity: 0; transition: opacity 0.2s; }
+  .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #fff; padding: 9px 22px; border-radius: 99px; font-size: 13px; font-weight: 500; z-index: 999; pointer-events: none; opacity: 0; transition: opacity 0.2s; max-width: 90vw; text-align: center; }
   .toast.show { opacity: 1; }
 
   .apikey-bar { background: #D6EBF3; border-bottom: 1px solid #B9D8E1; padding: 8px 20px; display: flex; align-items: center; gap: 10px; font-size: 12px; color: #2d6278; }
   .apikey-bar i { font-size: 15px; color: #447F98; }
   .apikey-bar a { color: #447F98; font-weight: 500; cursor: pointer; }
 
-  /* RED SOCIAL RULES BADGE */
   .red-rules { background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 12px; font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
   .red-rules strong { color: var(--text-primary); display: block; margin-bottom: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .brief-hint { background: #FFF8E6; border: 1px solid #EBD9A8; border-radius: var(--radius); padding: 10px 12px; font-size: 12px; color: #6b5a22; display: none; align-items: center; justify-content: space-between; gap: 10px; }
+
+  /* REDES ACTIVABLES */
+  .redes-banner { background: #FFF8E6; border-bottom: 1px solid #EBD9A8; padding: 9px 20px; font-size: 12px; color: #6b5a22; display: none; align-items: center; justify-content: space-between; gap: 10px; }
+  .redes-banner i { margin-right: 4px; }
+  .switch { position: relative; display: inline-block; width: 38px; height: 22px; flex-shrink: 0; margin-left: auto; }
+  .switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+  .slider { position: absolute; inset: 0; background: var(--border); border-radius: 22px; cursor: pointer; transition: background 0.15s; }
+  .slider::before { content: ''; position: absolute; height: 16px; width: 16px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: transform 0.15s; }
+  .switch input:checked + .slider { background: var(--accent); }
+  .switch input:checked + .slider::before { transform: translateX(16px); }
+  .switch input:focus-visible + .slider { outline: 2px solid var(--accent-hover); outline-offset: 2px; }
+  .red-card { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .red-card-head { padding: 9px 14px; background: var(--bg-secondary); font-size: 12px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; color: var(--text-primary); }
+  .red-row { padding: 12px 14px; border-top: 1px solid var(--border); }
+  .red-card-head + .red-row { border-top: none; }
+  .red-row-top { display: flex; align-items: center; gap: 8px; }
+  .red-row-top > i { font-size: 18px; color: var(--accent); }
+  .red-row-name { font-size: 13px; font-weight: 500; }
+  .rec-badge { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 99px; white-space: nowrap; }
+  .rec-reco { background: var(--accent); color: #fff; }
+  .rec-opt { background: var(--bg-tertiary); color: var(--accent-hover); }
+  .rec-no { background: #DADEE1; color: #5a6a72; }
+  .rec-detail { margin-top: 8px; font-size: 12px; color: var(--text-primary); line-height: 1.5; }
+  .rec-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .rec-tag { font-size: 11px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 6px; padding: 3px 8px; color: var(--text-secondary); }
+  .rec-tag b { color: var(--text-primary); font-weight: 600; }
+  .redes-resumen { background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; font-size: 12px; line-height: 1.5; color: var(--text-primary); display: flex; flex-direction: column; gap: 8px; }
+  .redes-resumen strong { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); }
 
   @media (max-width: 700px) {
     .metrics-row-pilares { grid-template-columns: repeat(3, 1fr); }
     .metrics-row-redes { grid-template-columns: repeat(2, 1fr); }
     .redes-tabs .red-tab span { display: none; }
     .topbar-subtitle { display: none; }
+    .field-row { grid-template-columns: 1fr; }
+    .color-row { grid-template-columns: 40px 96px 1fr 30px; }
   }
 </style>
 </head>
@@ -194,16 +252,17 @@
     <div class="setup-title">Configurá tu API Key de Anthropic</div>
     <div class="setup-desc">
       Para que el generador de ideas con IA funcione, necesitás una API Key de Anthropic.<br><br>
-      Obtené la tuya en <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys → Create Key.
+      Obtené la tuya en <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a> → API Keys → Create Key.
     </div>
     <div class="field-group">
-      <label class="field-label">API Key</label>
+      <label class="field-label" for="setup-apikey">API Key</label>
       <div class="setup-input-row">
         <input type="password" id="setup-apikey" placeholder="sk-ant-api03-...">
         <button class="btn btn-dark" onclick="saveApiKey()"><i class="ti ti-arrow-right"></i> Entrar</button>
       </div>
     </div>
     <div class="setup-note">La clave se guarda en tu navegador y solo se usa para llamar a la API de Anthropic.</div>
+    <button class="btn btn-sm" id="setup-cancel" onclick="bootApp()" style="display:none;margin-top:14px;"><i class="ti ti-arrow-left"></i> Volver a la app</button>
   </div>
 </div>
 
@@ -215,17 +274,21 @@
   </div>
 
   <div class="topbar">
-    <div class="topbar-left">
-      <div>
-        <div class="topbar-title"><i class="ti ti-calendar-event"></i>Calendario de Contenido</div>
-        <div class="topbar-subtitle">Humanizar · Captar · Educar · Interactuar · Posicionar</div>
-      </div>
+    <div>
+      <div class="topbar-title"><i class="ti ti-calendar-event"></i>Calendario de Contenido</div>
+      <div class="topbar-subtitle">Humanizar · Captar · Educar · Interactuar · Posicionar</div>
     </div>
     <div class="topbar-actions">
       <button class="btn btn-sm" onclick="openConfig()"><i class="ti ti-building"></i>Brief de marca</button>
+      <button class="btn btn-sm" onclick="openRedes()"><i class="ti ti-share"></i>Redes</button>
       <button class="btn btn-sm" onclick="changeApiKey()"><i class="ti ti-key"></i>API Key</button>
       <button class="btn btn-dark btn-sm" onclick="openGenerator(null)"><i class="ti ti-sparkles"></i>Generar ideas</button>
     </div>
+  </div>
+
+  <div class="redes-banner" id="redes-banner">
+    <span><i class="ti ti-info-circle"></i>Estás viendo todas las redes. Elegí las que usa tu negocio, o dejá que la IA te recomiende según tu brief.</span>
+    <button class="btn btn-sm" onclick="openRedes()">Elegir redes</button>
   </div>
 
   <div class="metrics-header">
@@ -251,17 +314,12 @@
 
   <div class="nav-calendar">
     <div class="week-nav">
-      <button class="btn btn-icon" onclick="changeWeek(-1)"><i class="ti ti-chevron-left"></i></button>
+      <button class="btn btn-icon" onclick="changeWeek(-1)" aria-label="Semana anterior"><i class="ti ti-chevron-left"></i></button>
       <span class="week-label" id="week-label">—</span>
-      <button class="btn btn-icon" onclick="changeWeek(1)"><i class="ti ti-chevron-right"></i></button>
+      <button class="btn btn-icon" onclick="changeWeek(1)" aria-label="Semana siguiente"><i class="ti ti-chevron-right"></i></button>
     </div>
     <button class="btn btn-sm" onclick="goToday()">Hoy</button>
-    <div class="redes-tabs">
-      <button class="red-tab active" data-red="Instagram" onclick="switchRed('Instagram',this)"><i class="ti ti-brand-instagram"></i><span>Instagram</span></button>
-      <button class="red-tab" data-red="Facebook" onclick="switchRed('Facebook',this)"><i class="ti ti-brand-facebook"></i><span>Facebook</span></button>
-      <button class="red-tab" data-red="LinkedIn" onclick="switchRed('LinkedIn',this)"><i class="ti ti-brand-linkedin"></i><span>LinkedIn</span></button>
-      <button class="red-tab" data-red="YouTube" onclick="switchRed('YouTube',this)"><i class="ti ti-brand-youtube"></i><span>YouTube</span></button>
-    </div>
+    <div class="redes-tabs" id="redes-tabs"></div>
   </div>
 
   <div class="calendar-wrap">
@@ -274,11 +332,15 @@
 <div class="side-panel" id="gen-panel">
   <div class="panel-header">
     <span class="panel-title" id="panel-title">Generador con IA</span>
-    <button class="btn btn-icon" onclick="closePanel()"><i class="ti ti-x"></i></button>
+    <button class="btn btn-icon" onclick="closePanel()" aria-label="Cerrar"><i class="ti ti-x"></i></button>
   </div>
   <div class="panel-body">
+    <div class="brief-hint" id="brief-hint">
+      <span>Completá el Brief de marca para obtener contenido específico y no genérico.</span>
+      <button class="btn btn-sm" onclick="closePanel();openConfig()">Completar</button>
+    </div>
     <div class="field-group">
-      <label class="field-label">Pilar de contenido</label>
+      <label class="field-label" for="gen-pilar">Pilar de contenido</label>
       <select id="gen-pilar">
         <option value="Humanizar">Humanizar</option>
         <option value="Captar">Captar clientes</option>
@@ -288,43 +350,31 @@
       </select>
     </div>
     <div class="field-group">
-      <label class="field-label">Red social</label>
-      <select id="gen-red" onchange="updateRedRules()">
-        <option>Instagram</option>
-        <option>Facebook</option>
-        <option>LinkedIn</option>
-        <option>YouTube</option>
-      </select>
+      <label class="field-label" for="gen-red">Red social</label>
+      <select id="gen-red" onchange="onGenRedChange()"></select>
     </div>
     <div id="red-rules-box" class="red-rules"></div>
     <div class="field-group">
-      <label class="field-label">Formato</label>
-      <select id="gen-formato">
-        <option>Post</option>
-        <option>Carrusel</option>
-        <option>Reel / Video corto</option>
-        <option>Story</option>
-        <option>Video largo</option>
-      </select>
+      <label class="field-label" for="gen-formato">Formato</label>
+      <select id="gen-formato"></select>
     </div>
     <div class="field-group">
-      <label class="field-label">Tema o contexto adicional (opcional)</label>
-      <textarea id="gen-contexto" placeholder="Ej: lanzamiento de servicio, fecha especial, tendencia del sector..."></textarea>
+      <label class="field-label" for="gen-contexto">Tema o contexto adicional (opcional)</label>
+      <textarea id="gen-contexto" placeholder="Ej: lanzamiento de un producto, fecha especial, tendencia del sector..."></textarea>
     </div>
 
-    <!-- IMAGEN DE REFERENCIA -->
     <div class="field-group">
-      <label class="field-label">Imagen de referencia (opcional)</label>
-      <div class="img-upload-area" onclick="document.getElementById('brand-img-input').click()">
+      <label class="field-label">Imagen de referencia para esta pieza (opcional)</label>
+      <div class="drop-area" onclick="document.getElementById('ref-img-input').click()">
         <i class="ti ti-photo-up"></i>
-        <p>Subí un logo, imagen de producto o referencia visual</p>
+        <p>Subí una referencia visual para esta publicación</p>
       </div>
-      <input type="file" id="brand-img-input" accept="image/*" onchange="handleImageUpload(event)">
-      <img id="brand-img-preview" class="img-preview" alt="Preview">
-      <div id="brand-img-status" style="font-size:11px;color:var(--text-tertiary);display:none;">✓ Imagen cargada — la IA la usará como referencia visual</div>
+      <input type="file" id="ref-img-input" class="hidden-input" accept="image/*" onchange="handleRefImage(event)">
+      <img id="ref-img-preview" class="img-preview" alt="Vista previa de la referencia">
+      <div class="field-hint" id="ref-img-status" style="display:none;">✓ Imagen cargada. Las imágenes de marca del brief se incluyen automáticamente.</div>
     </div>
 
-    <button class="btn btn-dark" id="gen-btn" onclick="generarIdea()" style="width:100%;justify-content:center;padding:10px;">
+    <button class="btn btn-dark btn-block" id="gen-btn" onclick="generarIdea()">
       <i class="ti ti-sparkles"></i> Generar contenido
     </button>
     <div id="gen-result"></div>
@@ -332,137 +382,291 @@
   </div>
 </div>
 
-<!-- MODAL BRAND BRIEF -->
-<div class="modal-overlay" id="config-overlay">
+<!-- MODAL BRIEF DE MARCA -->
+<div class="modal-overlay" id="config-overlay" onclick="if(event.target===this)closeConfig()">
   <div class="modal">
     <div class="panel-header">
       <span class="panel-title"><i class="ti ti-building" style="margin-right:6px;color:var(--accent)"></i>Brief de marca</span>
-      <button class="btn btn-icon" onclick="closeConfig()"><i class="ti ti-x"></i></button>
+      <button class="btn btn-icon" onclick="closeConfig()" aria-label="Cerrar"><i class="ti ti-x"></i></button>
     </div>
     <div class="modal-body">
+      <p class="modal-intro">Cuanto más completo el brief, más específico el contenido. Si tenés un manual de marca en PDF, subilo en <strong>Archivos de marca</strong> y la IA completa el resto por vos.</p>
 
-      <!-- SECCION 1: IDENTIDAD -->
-      <div class="brief-section">
-        <div class="brief-section-header open" onclick="toggleSection(this)">
+      <!-- 1 IDENTIDAD -->
+      <div class="brief-section" id="sec-identidad">
+        <div class="brief-section-header" onclick="toggleSection(this)">
           <span><i class="ti ti-id-badge" style="margin-right:6px"></i>Identidad básica</span>
-          <i class="ti ti-chevron-down chevron"></i>
+          <i class="ti ti-chevron-up chevron"></i>
         </div>
         <div class="brief-section-body">
           <div class="field-group">
-            <label class="field-label">Nombre de la empresa / cliente</label>
-            <input type="text" id="cfg-nombre" placeholder="Ej: Planifi-K">
+            <label class="field-label" for="cfg-nombre">Nombre del negocio / marca</label>
+            <input type="text" id="cfg-nombre" placeholder="Ej: Café Origen">
           </div>
           <div class="field-group">
-            <label class="field-label">Sector / industria</label>
-            <input type="text" id="cfg-sector" placeholder="Ej: Logística B2B, Agencia de marketing digital">
+            <label class="field-label" for="cfg-sector">Sector / industria</label>
+            <input type="text" id="cfg-sector" placeholder="Ej: Cafetería de especialidad, estudio de arquitectura, e-commerce de ropa...">
+          </div>
+          <div class="field-row">
+            <div class="field-group">
+              <label class="field-label" for="cfg-pais">País / mercado</label>
+              <input type="text" id="cfg-pais" placeholder="Ej: México, Argentina, España...">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="cfg-idioma">Idioma del contenido</label>
+              <select id="cfg-idioma"></select>
+            </div>
           </div>
           <div class="field-group">
-            <label class="field-label">Productos y servicios principales</label>
-            <textarea id="cfg-productos" placeholder="Listá los productos o servicios clave que ofrece la marca"></textarea>
+            <label class="field-label" for="cfg-productos">Productos y servicios principales</label>
+            <textarea id="cfg-productos" placeholder="Listá los productos o servicios clave"></textarea>
           </div>
           <div class="field-group">
-            <label class="field-label">Historia / origen de la marca</label>
+            <label class="field-label" for="cfg-historia">Historia / origen de la marca</label>
             <textarea id="cfg-historia" placeholder="¿Cómo nació? ¿Qué la impulsó? ¿Cuánto tiempo tiene?"></textarea>
           </div>
         </div>
       </div>
 
-      <!-- SECCION 2: POSICIONAMIENTO -->
-      <div class="brief-section">
-        <div class="brief-section-header open" onclick="toggleSection(this)">
+      <!-- 2 POSICIONAMIENTO -->
+      <div class="brief-section collapsed" id="sec-posicionamiento">
+        <div class="brief-section-header" onclick="toggleSection(this)">
           <span><i class="ti ti-target" style="margin-right:6px"></i>Posicionamiento y propuesta de valor</span>
-          <i class="ti ti-chevron-down chevron"></i>
+          <i class="ti ti-chevron-up chevron"></i>
         </div>
         <div class="brief-section-body">
           <div class="field-group">
-            <label class="field-label">Propuesta de valor central</label>
-            <textarea id="cfg-propuesta" placeholder="¿Qué hace esta empresa mejor que nadie? ¿Qué problema resuelve?"></textarea>
+            <label class="field-label" for="cfg-propuesta">Propuesta de valor central</label>
+            <textarea id="cfg-propuesta" placeholder="¿Qué hace este negocio mejor que nadie? ¿Qué problema resuelve?"></textarea>
           </div>
           <div class="field-group">
-            <label class="field-label">Mensaje central / posicionamiento deseado</label>
+            <label class="field-label" for="cfg-mensaje">Mensaje central / posicionamiento deseado</label>
             <textarea id="cfg-mensaje" placeholder="¿Cómo quiere ser percibida la marca? ¿Qué lugar quiere ocupar en la mente del cliente?"></textarea>
           </div>
           <div class="field-group">
-            <label class="field-label">Diferenciación frente a la competencia</label>
+            <label class="field-label" for="cfg-diferenciacion">Diferenciación frente a la competencia</label>
             <textarea id="cfg-diferenciacion" placeholder="¿Qué tiene esta marca que la competencia no tiene o no comunica?"></textarea>
           </div>
           <div class="field-group">
-            <label class="field-label">Contexto actual de la marca</label>
-            <textarea id="cfg-contexto-marca" placeholder="Ej: En etapa de crecimiento, lanzando nueva línea de productos, reposicionándose en el mercado..."></textarea>
+            <label class="field-label" for="cfg-contexto-marca">Contexto actual de la marca</label>
+            <textarea id="cfg-contexto-marca" placeholder="Ej: en etapa de crecimiento, lanzando una nueva línea, reposicionándose..."></textarea>
           </div>
         </div>
       </div>
 
-      <!-- SECCION 3: AUDIENCIA Y TONO -->
-      <div class="brief-section">
-        <div class="brief-section-header open" onclick="toggleSection(this)">
+      <!-- 3 AUDIENCIA -->
+      <div class="brief-section collapsed" id="sec-audiencia">
+        <div class="brief-section-header" onclick="toggleSection(this)">
           <span><i class="ti ti-users" style="margin-right:6px"></i>Audiencia y tono</span>
-          <i class="ti ti-chevron-down chevron"></i>
+          <i class="ti ti-chevron-up chevron"></i>
         </div>
         <div class="brief-section-body">
           <div class="field-group">
-            <label class="field-label">Público objetivo</label>
-            <textarea id="cfg-publico" placeholder="¿Quién es el cliente ideal? Describí su perfil, dolores, motivaciones"></textarea>
+            <label class="field-label" for="cfg-publico">Público objetivo</label>
+            <textarea id="cfg-publico" placeholder="¿Quién es el cliente ideal? Describí su perfil, dolores y motivaciones"></textarea>
           </div>
           <div class="field-group">
-            <label class="field-label">Tono de comunicación</label>
-            <select id="cfg-tono">
-              <option value="profesional y cercano">Profesional y cercano</option>
-              <option value="inspirador y aspiracional">Inspirador y aspiracional</option>
-              <option value="educativo y didáctico">Educativo y didáctico</option>
-              <option value="disruptivo y directo">Disruptivo y directo</option>
-              <option value="formal y corporativo">Formal y corporativo</option>
-            </select>
+            <label class="field-label" for="cfg-tono">Tono de comunicación</label>
+            <select id="cfg-tono"></select>
           </div>
           <div class="field-group">
-            <label class="field-label">Qué queremos transmitir / valores de marca</label>
-            <textarea id="cfg-valores" placeholder="Ej: Confianza, innovación, cercanía, expertise, compromiso con el cliente..."></textarea>
+            <label class="field-label" for="cfg-valores">Qué queremos transmitir / valores de marca</label>
+            <textarea id="cfg-valores" placeholder="Ej: confianza, innovación, cercanía, calidad, compromiso..."></textarea>
           </div>
         </div>
       </div>
 
-      <!-- SECCION 4: VOZ Y ESTILO -->
-      <div class="brief-section">
+      <!-- 4 VOZ -->
+      <div class="brief-section collapsed" id="sec-voz">
         <div class="brief-section-header" onclick="toggleSection(this)">
-          <span><i class="ti ti-message-language" style="margin-right:6px"></i>Voz y estilo</span>
-          <i class="ti ti-chevron-down chevron"></i>
+          <span><i class="ti ti-message-language" style="margin-right:6px"></i>Voz y estilo de escritura</span>
+          <i class="ti ti-chevron-up chevron"></i>
         </div>
-        <div class="brief-section-body" style="display:none;">
+        <div class="brief-section-body">
           <div class="field-group">
-            <label class="field-label">Palabras que SÍ representan la marca</label>
-            <textarea id="cfg-palabras-si" placeholder="Ej: ágil, confiable, experto, cercano, estratégico..."></textarea>
+            <label class="field-label" for="cfg-palabras-si">Palabras que SÍ representan la marca</label>
+            <textarea id="cfg-palabras-si" placeholder="Ej: ágil, confiable, cercano, auténtico..."></textarea>
           </div>
           <div class="field-group">
-            <label class="field-label">Palabras que NO representan la marca</label>
-            <textarea id="cfg-palabras-no" placeholder="Ej: complicado, burocrático, distante, genérico..."></textarea>
+            <label class="field-label" for="cfg-palabras-no">Palabras que NO representan la marca</label>
+            <textarea id="cfg-palabras-no" placeholder="Ej: complicado, distante, genérico..."></textarea>
           </div>
           <div class="field-group">
-            <label class="field-label">Cómo conecta lo que hace con quiénes son</label>
+            <label class="field-label" for="cfg-conexion">Cómo conecta lo que hace con quiénes son</label>
             <textarea id="cfg-conexion" placeholder="¿Qué hay de auténtico en la forma en que esta marca resuelve el problema? ¿Por qué lo hace ella y no otra?"></textarea>
           </div>
         </div>
       </div>
 
-      <button class="btn btn-dark" onclick="saveConfig()" style="width:100%;justify-content:center;padding:10px;">
+      <!-- 5 IDENTIDAD VISUAL -->
+      <div class="brief-section collapsed" id="sec-visual">
+        <div class="brief-section-header" onclick="toggleSection(this)">
+          <span><i class="ti ti-palette" style="margin-right:6px"></i>Identidad visual</span>
+          <i class="ti ti-chevron-up chevron"></i>
+        </div>
+        <div class="brief-section-body">
+          <div class="field-group">
+            <label class="field-label">Colores de la marca</label>
+            <div id="color-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+            <div><button class="btn btn-sm" id="add-color-btn" onclick="addColorRow()"><i class="ti ti-plus"></i> Agregar color</button></div>
+          </div>
+          <div class="field-row">
+            <div class="field-group">
+              <label class="field-label" for="cfg-tipo-titulos">Tipografía de títulos</label>
+              <input type="text" id="cfg-tipo-titulos" placeholder="Ej: Montserrat Bold">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="cfg-tipo-texto">Tipografía de texto</label>
+              <input type="text" id="cfg-tipo-texto" placeholder="Ej: Open Sans Regular">
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Estilo visual (elegí los que apliquen)</label>
+            <div class="chips" id="style-chips"></div>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="cfg-fotografia">Fotografía e ilustración</label>
+            <textarea id="cfg-fotografia" placeholder="Ej: fotos reales con luz natural, ilustraciones planas, íconos de línea fina..."></textarea>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="cfg-elementos">Elementos gráficos recurrentes</label>
+            <textarea id="cfg-elementos" placeholder="Ej: formas redondeadas, patrones geométricos, marcos, sellos..."></textarea>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="cfg-evitar">Qué evitar visualmente</label>
+            <textarea id="cfg-evitar" placeholder="Ej: fondos recargados, colores neón, stock genérico, tipografías decorativas..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 ARCHIVOS -->
+      <div class="brief-section collapsed" id="sec-archivos">
+        <div class="brief-section-header" onclick="toggleSection(this)">
+          <span><i class="ti ti-paperclip" style="margin-right:6px"></i>Archivos de marca</span>
+          <i class="ti ti-chevron-up chevron"></i>
+        </div>
+        <div class="brief-section-body">
+          <div class="field-group">
+            <label class="field-label">Imágenes de marca (logo, productos, referencias) · <span id="brand-img-count">0/4</span></label>
+            <div class="thumb-grid" id="brand-img-grid"></div>
+            <div class="drop-area" id="brand-img-drop" onclick="document.getElementById('brand-img-input').click()">
+              <i class="ti ti-photo-up"></i>
+              <p>Subí hasta 4 imágenes. Se optimizan automáticamente.</p>
+            </div>
+            <input type="file" id="brand-img-input" class="hidden-input" accept="image/*" multiple onchange="handleBrandImages(event)">
+            <div class="field-hint">La IA las usa como referencia en cada generación. Los logos con fondo transparente se guardan sobre fondo blanco.</div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Manual de marca (PDF)</label>
+            <div class="drop-area" onclick="document.getElementById('manual-input').click()">
+              <i class="ti ti-file-type-pdf"></i>
+              <p>Subí el PDF del manual de marca (máx. 3,5 MB)</p>
+            </div>
+            <input type="file" id="manual-input" class="hidden-input" accept="application/pdf,.pdf" onchange="handleManualPdf(event)">
+            <div class="file-box" id="manual-box" style="display:none;">
+              <i class="ti ti-file-type-pdf"></i>
+              <span class="file-name" id="manual-name"></span>
+              <span class="file-status" id="manual-status"></span>
+            </div>
+            <button class="btn btn-dark btn-sm" id="manual-analyze-btn" onclick="analizarManual()" disabled style="align-self:flex-start;">
+              <i class="ti ti-wand"></i> Analizar manual con IA
+            </button>
+            <div class="field-hint">La IA lee el PDF una sola vez y completa los campos que estén vacíos (colores, tipografías, tono, estilo, etc.). Después revisás y corregís lo que haga falta.</div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="cfg-resumen-manual">Resumen del manual de marca</label>
+            <textarea id="cfg-resumen-manual" placeholder="Reglas clave de la marca: uso del logo, jerarquía tipográfica, qué sí y qué no. Se completa solo al analizar el manual, o podés escribirlo vos."></textarea>
+            <div class="field-hint">Este resumen se incluye en cada generación.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-dark btn-block" onclick="saveConfig()">
         <i class="ti ti-device-floppy"></i> Guardar brief de marca
       </button>
     </div>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<!-- MODAL REDES -->
+<div class="modal-overlay" id="redes-overlay" onclick="if(event.target===this)closeRedes()">
+  <div class="modal">
+    <div class="panel-header">
+      <span class="panel-title"><i class="ti ti-share" style="margin-right:6px;color:var(--accent)"></i>Redes sociales</span>
+      <button class="btn btn-icon" onclick="closeRedes()" aria-label="Cerrar"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-intro">Activá solo las redes que usa tu negocio: el calendario, las métricas y el generador mostrarán únicamente esas. Si no sabés por dónde empezar, la IA puede recomendártelas a partir de tu Brief de marca.</p>
+      <button class="btn btn-dark" id="rec-btn" onclick="recomendarRedes()" style="align-self:flex-start;"><i class="ti ti-sparkles"></i> Recomendar redes con IA</button>
+      <div id="redes-list" style="display:flex;flex-direction:column;gap:12px;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-dark btn-block" onclick="guardarRedes()"><i class="ti ti-device-floppy"></i> Guardar redes</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
+// ───────── CONSTANTES ─────────
 const DAYS = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
-const REDES = ['Instagram','Facebook','LinkedIn','YouTube'];
+const CANALES = ['Meta','LinkedIn','YouTube','TikTok'];   // canales del calendario (Meta = Instagram + Facebook)
+const REDES = CANALES;
+const PLATAFORMAS = [
+  { id: 'Instagram', canal: 'Meta',     icon: 'ti-brand-instagram' },
+  { id: 'Facebook',  canal: 'Meta',     icon: 'ti-brand-facebook' },
+  { id: 'LinkedIn',  canal: 'LinkedIn', icon: 'ti-brand-linkedin' },
+  { id: 'YouTube',   canal: 'YouTube',  icon: 'ti-brand-youtube' },
+  { id: 'TikTok',    canal: 'TikTok',   icon: 'ti-brand-tiktok' }
+];
 const PILARES_LIST = ['Humanizar','Captar','Educar','Interaccion','Posicionamiento'];
 const PILAR_LABELS = { Humanizar:'Humanizar', Captar:'Captar clientes', Educar:'Educar', Interaccion:'Interacción', Posicionamiento:'Posicionar' };
 const PILAR_DOT  = { Humanizar:'#447F98', Captar:'#2d6278', Educar:'#3a6d84', Interaccion:'#629BB5', Posicionamiento:'#B9D8E1' };
 const PILAR_TEXT = { Humanizar:'#2d6278', Captar:'#1e4a5c', Educar:'#2a5268', Interaccion:'#447F98', Posicionamiento:'#629BB5' };
 const MC_PILAR = { Humanizar:'mc-humanizar', Captar:'mc-captar', Educar:'mc-educar', Interaccion:'mc-interaccion', Posicionamiento:'mc-posicionamiento' };
-const MC_RED   = { Instagram:'mc-instagram', Facebook:'mc-facebook', LinkedIn:'mc-linkedin', YouTube:'mc-youtube' };
-const RED_ICONS = { Instagram:'ti-brand-instagram', Facebook:'ti-brand-facebook', LinkedIn:'ti-brand-linkedin', YouTube:'ti-brand-youtube' };
+const MC_RED   = { Meta:'mc-meta', LinkedIn:'mc-linkedin', YouTube:'mc-youtube', TikTok:'mc-tiktok' };
+const RED_ICONS = { Meta:'ti-brand-meta', Instagram:'ti-brand-instagram', Facebook:'ti-brand-facebook', LinkedIn:'ti-brand-linkedin', YouTube:'ti-brand-youtube', TikTok:'ti-brand-tiktok' };
 const FORMAT_ICONS = { 'Post':'ti-photo','Carrusel':'ti-layout-grid','Reel / Video corto':'ti-player-play','Story':'ti-device-mobile','Video largo':'ti-video' };
+
+const TONOS = [
+  { v:'profesional y cercano', l:'Profesional y cercano' },
+  { v:'inspirador y aspiracional', l:'Inspirador y aspiracional' },
+  { v:'educativo y didáctico', l:'Educativo y didáctico' },
+  { v:'disruptivo y directo', l:'Disruptivo y directo' },
+  { v:'formal y corporativo', l:'Formal y corporativo' },
+  { v:'divertido y casual', l:'Divertido y casual' },
+  { v:'elegante y sofisticado', l:'Elegante y sofisticado' }
+];
+const IDIOMAS = [
+  'Español neutro (LATAM)',
+  'Español rioplatense (Argentina/Uruguay)',
+  'Español de México',
+  'Español de España',
+  'English (US)',
+  'Português (Brasil)'
+];
+const STYLE_OPTIONS = ['Minimalista','Corporativo','Cálido y cercano','Tecnológico','Editorial','Divertido y juvenil','Premium / elegante','Artesanal','Moderno','Clásico','Audaz y disruptivo','Natural / orgánico'];
+const COLOR_ROLES = ['Primario','Secundario','Acento','Fondo','Texto','Otro'];
+
+const MAX_BRAND_IMAGES = 4;
+const MAX_COLORS = 8;
+const MAX_PDF_BYTES = 3.5 * 1024 * 1024;
+const HEX_RE = /^#[0-9A-Fa-f]{6}$/;
+
+// Mapa campo-de-config → id del input
+const TEXT_FIELDS = {
+  nombre:'cfg-nombre', sector:'cfg-sector', pais:'cfg-pais', idioma:'cfg-idioma',
+  productos:'cfg-productos', historia:'cfg-historia',
+  propuesta:'cfg-propuesta', mensaje:'cfg-mensaje', diferenciacion:'cfg-diferenciacion', contextoMarca:'cfg-contexto-marca',
+  publico:'cfg-publico', tono:'cfg-tono', valores:'cfg-valores',
+  palabrasSi:'cfg-palabras-si', palabrasNo:'cfg-palabras-no', conexion:'cfg-conexion',
+  tipoTitulos:'cfg-tipo-titulos', tipoTexto:'cfg-tipo-texto', fotografia:'cfg-fotografia', elementos:'cfg-elementos', evitar:'cfg-evitar',
+  resumenManual:'cfg-resumen-manual'
+};
 
 // Reglas específicas por red social
 const RED_RULES = {
@@ -489,7 +693,7 @@ REGLAS ESPECÍFICAS:
 - Apertura con pregunta o dato impactante para fomentar engagement
 - Incluir llamada a comentar o compartir explícita
 - Máximo 2-3 hashtags (Facebook penaliza el exceso)
-- Videos nativos tienen prioridad al feed — si es video, indicar estructura y duración ideal (1-3 min)
+- Videos nativos tienen prioridad al feed: si es video, indicar estructura y duración ideal (1-3 min)
 - Tono conversacional, como si hablaras con un conocido
 - El brief visual debe considerar formatos cuadrado (1:1) o horizontal (16:9)`
   },
@@ -502,7 +706,7 @@ REGLAS ESPECÍFICAS:
 - Storytelling largo y reflexivo (400-600 palabras), con estructura: gancho → historia/contexto → aprendizaje → conclusión
 - Párrafos de 1-3 líneas con espacios entre ellos (no bloques de texto)
 - Máximo 3-5 hashtags al final, muy específicos del sector
-- Evitar lenguaje de venta directa — enfocarse en valor, aprendizaje y autoridad
+- Evitar lenguaje de venta directa: enfocarse en valor, aprendizaje y autoridad
 - Tono: profesional pero humano, reflexivo, con punto de vista propio
 - Para carrusel/documento: definir título, estructura de slides y datos clave
 - El brief visual debe ser limpio, corporativo y de alta calidad`
@@ -512,25 +716,133 @@ REGLAS ESPECÍFICAS:
     desc: 'Buscado por SEO. Título optimizado con keywords. Descripción larga con timestamps. Para Shorts: gancho en 3 segundos, duración 15-60 seg. Para video largo: estructura en capítulos.',
     prompt: `RED: YouTube
 REGLAS ESPECÍFICAS:
-- El "hook" es el TÍTULO del video — debe tener keywords de búsqueda y generar curiosidad
+- El "hook" es el TÍTULO del video: debe tener keywords de búsqueda y generar curiosidad
 - Para video largo: estructura en capítulos (intro, desarrollo, conclusión + timestamps)
 - Para Shorts: gancho visual en los primeros 3 segundos, duración ideal 30-60 segundos, texto en pantalla
 - La descripción debe ser larga (300-500 palabras), con keywords naturales, links y timestamps
 - Incluir CTA para suscripción y comentario
-- Tono: educativo, entretenido, con energía — mantener ritmo para retención
+- Tono: educativo, entretenido, con energía; mantener ritmo para retención
 - El brief visual incluye thumbnail (diseño, texto en imagen, expresión/objeto central)`
   }
 };
 
+// Formatos por canal (TikTok no tiene Post ni Story clásicos)
+const FORMATOS_BASE = ['Post','Carrusel','Reel / Video corto','Story','Video largo'];
+const FORMATOS_POR_CANAL = { TikTok: ['Reel / Video corto','Carrusel','Video largo'] };
+function formatosDe(canal) { return FORMATOS_POR_CANAL[canal] || FORMATOS_BASE; }
+
+RED_RULES.TikTok = {
+  label: 'TikTok',
+  desc: 'Los primeros 2 segundos deciden todo. Video vertical 9:16 de 15 a 45 segundos, estilo nativo y auténtico, texto en pantalla, caption breve con palabras clave y 3-5 hashtags. Funciona como buscador.',
+  prompt: `RED: TikTok
+REGLAS ESPECÍFICAS:
+- Los primeros 2 segundos deciden todo: el gancho debe ser visual y verbal, pensado para cortar el scroll
+- Video vertical 9:16, duración ideal 15-45 segundos (hasta 60 para empezar). Estructura: gancho → desarrollo rápido → cierre con CTA
+- Estilo nativo y auténtico: menos producción, más personas y situaciones reales; evitar el tono de publicidad
+- Texto en pantalla obligatorio (muchos ven sin audio) y subtítulos
+- Sugerir el tipo de audio: voz en off, audio original o audio en tendencia (aclarando que hay que verificar su disponibilidad dentro de la app)
+- Caption breve (idealmente menos de 150 caracteres) con palabras clave del sector y 3-5 hashtags
+- Pensar TikTok como buscador: incluir keywords que la gente busca, en el texto en pantalla y en el caption
+- Para carrusel de fotos: 4-8 imágenes con texto grande y portada fuerte
+- CTA: comentar, guardar o seguir; evitar insistir con "link en bio"
+- El brief visual describe el video escena por escena (plano, acción, texto en pantalla y duración de cada una)`
+};
+
+const JSON_SYSTEM = 'Sos un experto en marketing de contenidos y dirección de arte para redes sociales. Escribís en el idioma y la variante que indique el brief. Respondé SOLO con JSON válido, sin markdown, sin backticks y sin texto extra.';
+
+// ───────── ESTADO ─────────
 let currentWeekStart = getMonday(new Date());
-let activeRed = 'Instagram';
+let activeRed = 'Meta';
 let activePilar = 'todos';
 let lastGenerated = null;
 let pendingDay = null;
 let config = {};
-let brandImageBase64 = null;
+let refImage = null;      // imagen de referencia de la pieza (dataURL JPEG)
+let brandImages = [];     // imágenes de marca (dataURL JPEG)
+let brandColors = [];     // [{rol, hex}]
+let brandStyles = [];     // ['Minimalista', ...]
+let manualPdf = null;     // {name, data(base64)} pendiente de analizar
+let manualNombre = '';    // nombre del manual ya analizado
 
-// ── API KEY ──
+// ───────── UTILIDADES ─────────
+function esc(str) {
+  return String(str ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function escHtml(str) { return esc(str).replace(/\n/g,'<br>'); }
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => t.classList.remove('show'), 2800);
+}
+function copyField(key) {
+  const text = lastGenerated && lastGenerated[key];
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => showToast('Texto copiado')).catch(() => showToast('No se pudo copiar'));
+}
+function weekStr(d) {
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function getMonday(d) {
+  const date = new Date(d); const day = date.getDay();
+  date.setDate(date.getDate() + (day === 0 ? -6 : 1 - day));
+  date.setHours(0,0,0,0); return date;
+}
+function extractJson(raw) {
+  const s = raw.indexOf('{'), e = raw.lastIndexOf('}');
+  if (s === -1 || e === -1) throw new Error('Respuesta inesperada de la IA. Probá de nuevo.');
+  try { return JSON.parse(raw.slice(s, e + 1)); }
+  catch (err) { throw new Error('La IA devolvió un formato inválido. Probá de nuevo.'); }
+}
+function str(v) { return typeof v === 'string' ? v.trim() : ''; }
+
+// Comprime una imagen a JPEG (máx. 900 px) para que entre en el almacenamiento y en la API
+function compressImage(file, maxDim = 900, quality = 0.75) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = reject;
+    reader.onload = e => {
+      const img = new Image();
+      img.onerror = reject;
+      img.onload = () => {
+        const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+        const w = Math.max(1, Math.round(img.width * scale));
+        const h = Math.max(1, Math.round(img.height * scale));
+        const c = document.createElement('canvas'); c.width = w; c.height = h;
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(c.toDataURL('image/jpeg', quality));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+function toImageBlock(dataUrl) {
+  return { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: dataUrl.split(',')[1] } };
+}
+
+// Llamada a la función serverless (proxy hacia la API de Anthropic)
+async function callClaude({ content, system, maxTokens }) {
+  const resp = await fetch('/.netlify/functions/claude', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ content, apiKey: getApiKey(), system, maxTokens })
+  });
+  let data = {};
+  try { data = await resp.json(); } catch (e) {}
+  if (!resp.ok) {
+    if (resp.status === 413) throw new Error('Los archivos adjuntos son demasiado pesados. Quitá imágenes o usá un PDF más liviano.');
+    if (resp.status === 404) throw new Error('No se encontró la función del servidor. Abrí la app desde su URL publicada.');
+    throw new Error(data?.error?.message || `Error ${resp.status}`);
+  }
+  const text = (data.content || []).map(b => b.text || '').join('');
+  if (!text) throw new Error('La IA no devolvió contenido. Probá de nuevo.');
+  return text;
+}
+
+// ───────── API KEY ─────────
 function getApiKey() { return localStorage.getItem('pk_apikey') || ''; }
 function saveApiKey() {
   const key = document.getElementById('setup-apikey').value.trim();
@@ -540,22 +852,22 @@ function saveApiKey() {
 }
 function changeApiKey() {
   document.getElementById('setup-apikey').value = getApiKey();
+  document.getElementById('setup-cancel').style.display = getApiKey() ? 'inline-flex' : 'none';
   document.getElementById('setup-screen').style.display = 'flex';
   document.getElementById('app').classList.remove('visible');
 }
 function showSetup() { changeApiKey(); }
-
 function bootApp() {
   document.getElementById('setup-screen').style.display = 'none';
   document.getElementById('app').classList.add('visible');
   document.getElementById('apikey-bar').style.display = getApiKey() ? 'none' : 'flex';
-  loadConfig();
+  loadConfig(); loadRedes(); migrateMeta();
+  ensureActiveRed(); renderRedTabs(); populateGenRed(); updateRedBanner();
   renderAll();
   updateRedRules();
 }
 
-// ── STORAGE ──
-function weekStr(d) { return d.toISOString().split('T')[0]; }
+// ───────── ALMACENAMIENTO ─────────
 function storageKey(red, ws) { return `pk_posts_${red}_${ws}`; }
 
 function getAllPosts() {
@@ -568,136 +880,543 @@ function getAllPosts() {
           const obj = JSON.parse(localStorage.getItem(k) || '{}');
           for (const day of Object.keys(obj))
             for (const p of (obj[day] || [])) all.push({ ...p, red, day });
-        } catch(e) {}
+        } catch (e) {}
       }
     }
   }
   return all;
 }
-
 function getPostsForWeekRed() {
   try { return JSON.parse(localStorage.getItem(storageKey(activeRed, weekStr(currentWeekStart))) || '{}'); }
-  catch(e) { return {}; }
+  catch (e) { return {}; }
 }
 function savePostsForWeekRed(posts) {
-  try { localStorage.setItem(storageKey(activeRed, weekStr(currentWeekStart)), JSON.stringify(posts)); }
-  catch(e) {}
+  try { localStorage.setItem(storageKey(activeRed, weekStr(currentWeekStart)), JSON.stringify(posts)); } catch (e) {}
+}
+function savePostToCalendar(post, dayKey) {
+  const monday = getMonday(new Date(dayKey + 'T12:00:00'));
+  const k = storageKey(post.red, weekStr(monday));
+  let obj = {};
+  try { obj = JSON.parse(localStorage.getItem(k) || '{}'); } catch (e) {}
+  if (!obj[dayKey]) obj[dayKey] = [];
+  obj[dayKey].push(post);
+  localStorage.setItem(k, JSON.stringify(obj));
+  return monday;
 }
 
-// ── CONFIG / BRAND BRIEF ──
+// ───────── BRIEF DE MARCA ─────────
+function initBriefSelects() {
+  document.getElementById('cfg-tono').innerHTML =
+    '<option value="">— Sin definir —</option>' + TONOS.map(t => `<option value="${esc(t.v)}">${esc(t.l)}</option>`).join('');
+  document.getElementById('cfg-idioma').innerHTML =
+    IDIOMAS.map(i => `<option value="${esc(i)}">${esc(i)}</option>`).join('');
+}
+
 function loadConfig() {
-  try { config = JSON.parse(localStorage.getItem('pk_config') || '{}'); } catch(e) { config = {}; }
+  try { config = JSON.parse(localStorage.getItem('pk_config') || '{}'); } catch (e) { config = {}; }
+  try { brandImages = JSON.parse(localStorage.getItem('pk_brand_images') || '[]'); } catch (e) { brandImages = []; }
+  if (!Array.isArray(brandImages)) brandImages = [];
 }
 
 function saveConfig() {
-  config = {
-    nombre:         document.getElementById('cfg-nombre').value,
-    sector:         document.getElementById('cfg-sector').value,
-    productos:      document.getElementById('cfg-productos').value,
-    historia:       document.getElementById('cfg-historia').value,
-    propuesta:      document.getElementById('cfg-propuesta').value,
-    mensaje:        document.getElementById('cfg-mensaje').value,
-    diferenciacion: document.getElementById('cfg-diferenciacion').value,
-    contextoMarca:  document.getElementById('cfg-contexto-marca').value,
-    publico:        document.getElementById('cfg-publico').value,
-    tono:           document.getElementById('cfg-tono').value,
-    valores:        document.getElementById('cfg-valores').value,
-    palabrasSi:     document.getElementById('cfg-palabras-si').value,
-    palabrasNo:     document.getElementById('cfg-palabras-no').value,
-    conexion:       document.getElementById('cfg-conexion').value,
-  };
-  try { localStorage.setItem('pk_config', JSON.stringify(config)); } catch(e) {}
+  const c = {};
+  Object.entries(TEXT_FIELDS).forEach(([k, id]) => {
+    const el = document.getElementById(id);
+    c[k] = el ? el.value.trim() : '';
+  });
+  c.colores = brandColors.filter(x => HEX_RE.test(x.hex));
+  c.estilos = [...brandStyles];
+  c.manualNombre = manualNombre;
+  try {
+    localStorage.setItem('pk_config', JSON.stringify(c));
+    localStorage.setItem('pk_brand_images', JSON.stringify(brandImages));
+  } catch (e) {
+    showToast('No hay espacio para guardar. Quitá alguna imagen.');
+    return;
+  }
+  config = c;
   closeConfig();
   showToast('Brief de marca guardado');
 }
 
 function openConfig() {
-  const fields = ['nombre','sector','productos','historia','propuesta','mensaje','diferenciacion','contextoMarca','publico','tono','valores','palabrasSi','palabrasNo','conexion'];
-  const ids     = ['cfg-nombre','cfg-sector','cfg-productos','cfg-historia','cfg-propuesta','cfg-mensaje','cfg-diferenciacion','cfg-contexto-marca','cfg-publico','cfg-tono','cfg-valores','cfg-palabras-si','cfg-palabras-no','cfg-conexion'];
-  const keys    = ['nombre','sector','productos','historia','propuesta','mensaje','diferenciacion','contextoMarca','publico','tono','valores','palabrasSi','palabrasNo','conexion'];
-  ids.forEach((id, i) => {
+  Object.entries(TEXT_FIELDS).forEach(([k, id]) => {
     const el = document.getElementById(id);
-    if (el) el.value = config[keys[i]] || '';
+    if (!el) return;
+    if (el.tagName === 'SELECT') {
+      el.selectedIndex = 0;
+      if (config[k]) el.value = config[k];
+    } else {
+      el.value = config[k] || '';
+    }
   });
+  brandColors = (config.colores || []).filter(c => c && HEX_RE.test(c.hex)).map(c => ({ rol: c.rol, hex: c.hex }));
+  brandStyles = [...(config.estilos || [])];
+  manualNombre = config.manualNombre || '';
+  manualPdf = null;
+  renderColors(); renderChips(); renderBrandImages(); updateManualUI();
   document.getElementById('config-overlay').classList.add('open');
 }
 function closeConfig() { document.getElementById('config-overlay').classList.remove('open'); }
 
-function toggleSection(header) {
-  header.classList.toggle('open');
-  const body = header.nextElementSibling;
-  body.style.display = body.style.display === 'none' ? 'flex' : 'none';
+function toggleSection(header) { header.parentElement.classList.toggle('collapsed'); }
+function openSection(id) { const s = document.getElementById(id); if (s) s.classList.remove('collapsed'); }
+
+// Colores
+function renderColors() {
+  const box = document.getElementById('color-list');
+  if (!brandColors.length) {
+    box.innerHTML = '<div class="field-hint">Todavía no hay colores. Agregalos a mano o tomalos del manual con "Analizar manual con IA".</div>';
+  } else {
+    box.innerHTML = brandColors.map((c, i) => `
+      <div class="color-row">
+        <input type="color" id="col-pick-${i}" value="${esc(c.hex.toLowerCase())}" oninput="onColorPick(${i},this.value)" aria-label="Color ${i+1}">
+        <input type="text" id="col-hex-${i}" value="${esc(c.hex.toUpperCase())}" maxlength="7" onchange="onColorHex(${i},this.value)" aria-label="HEX del color ${i+1}">
+        <select onchange="onColorRole(${i},this.value)" aria-label="Rol del color ${i+1}">
+          ${COLOR_ROLES.map(r => `<option${r === c.rol ? ' selected' : ''}>${r}</option>`).join('')}
+        </select>
+        <button class="btn btn-icon" onclick="removeColor(${i})" aria-label="Quitar color"><i class="ti ti-trash"></i></button>
+      </div>`).join('');
+  }
+  document.getElementById('add-color-btn').disabled = brandColors.length >= MAX_COLORS;
+}
+function addColorRow() {
+  if (brandColors.length >= MAX_COLORS) return;
+  const used = brandColors.map(c => c.rol);
+  const rol = COLOR_ROLES.find(r => !used.includes(r)) || 'Otro';
+  brandColors.push({ rol, hex: '#777777' });
+  renderColors();
+}
+function removeColor(i) { brandColors.splice(i, 1); renderColors(); }
+function onColorPick(i, v) {
+  brandColors[i].hex = v.toUpperCase();
+  const t = document.getElementById('col-hex-' + i); if (t) t.value = v.toUpperCase();
+}
+function onColorHex(i, v) {
+  let h = v.trim(); if (h && h[0] !== '#') h = '#' + h;
+  if (HEX_RE.test(h)) {
+    brandColors[i].hex = h.toUpperCase();
+    const p = document.getElementById('col-pick-' + i); if (p) p.value = h.toLowerCase();
+  }
+  const t = document.getElementById('col-hex-' + i); if (t) t.value = brandColors[i].hex;
+}
+function onColorRole(i, v) { brandColors[i].rol = v; }
+
+// Estilos (chips)
+function renderChips() {
+  document.getElementById('style-chips').innerHTML = STYLE_OPTIONS.map(s =>
+    `<button type="button" class="chip${brandStyles.includes(s) ? ' on' : ''}" onclick="toggleStyle('${s}')">${s}</button>`).join('');
+}
+function toggleStyle(s) {
+  brandStyles = brandStyles.includes(s) ? brandStyles.filter(x => x !== s) : [...brandStyles, s];
+  renderChips();
 }
 
-// ── RED RULES ──
+// Imágenes de marca
+async function handleBrandImages(ev) {
+  const files = [...ev.target.files]; ev.target.value = '';
+  const room = MAX_BRAND_IMAGES - brandImages.length;
+  if (room <= 0) { showToast(`Máximo ${MAX_BRAND_IMAGES} imágenes`); return; }
+  for (const f of files.slice(0, room)) {
+    try { brandImages.push(await compressImage(f)); }
+    catch (e) { showToast('No se pudo leer ' + f.name); }
+  }
+  if (files.length > room) showToast(`Solo se agregaron ${room} (máximo ${MAX_BRAND_IMAGES})`);
+  renderBrandImages();
+}
+function removeBrandImage(i) { brandImages.splice(i, 1); renderBrandImages(); }
+function renderBrandImages() {
+  document.getElementById('brand-img-grid').innerHTML = brandImages.map((src, i) => `
+    <div class="thumb">
+      <img src="${src}" alt="Imagen de marca ${i+1}">
+      <button class="thumb-x" onclick="removeBrandImage(${i})" aria-label="Quitar imagen"><i class="ti ti-x"></i></button>
+    </div>`).join('');
+  document.getElementById('brand-img-count').textContent = `${brandImages.length}/${MAX_BRAND_IMAGES}`;
+  document.getElementById('brand-img-drop').style.display = brandImages.length >= MAX_BRAND_IMAGES ? 'none' : 'block';
+}
+
+// Manual de marca (PDF)
+function handleManualPdf(ev) {
+  const f = ev.target.files[0]; ev.target.value = '';
+  if (!f) return;
+  if (f.type !== 'application/pdf' && !f.name.toLowerCase().endsWith('.pdf')) { alert('Seleccioná un archivo PDF.'); return; }
+  if (f.size > MAX_PDF_BYTES) {
+    alert(`El PDF pesa ${(f.size/1048576).toFixed(1)} MB y el máximo es 3,5 MB. Reducí su peso con un compresor de PDF y volvé a subirlo.`);
+    return;
+  }
+  const r = new FileReader();
+  r.onload = e => { manualPdf = { name: f.name, data: e.target.result.split(',')[1] }; updateManualUI(); };
+  r.readAsDataURL(f);
+}
+function updateManualUI() {
+  const box = document.getElementById('manual-box');
+  const btn = document.getElementById('manual-analyze-btn');
+  if (manualPdf) {
+    box.style.display = 'flex';
+    document.getElementById('manual-name').textContent = manualPdf.name;
+    document.getElementById('manual-status').textContent = 'Listo para analizar';
+    btn.disabled = false;
+  } else if (manualNombre) {
+    box.style.display = 'flex';
+    document.getElementById('manual-name').textContent = manualNombre;
+    document.getElementById('manual-status').textContent = '✓ Analizado';
+    btn.disabled = true;
+  } else {
+    box.style.display = 'none';
+    btn.disabled = true;
+  }
+}
+function analysisPrompt() {
+  return `Analizá este manual de marca y extraé la información para completar un brief de marca. No inventes datos: si algo no figura en el documento, dejá "" o [].
+
+Respondé SOLO con un JSON válido con esta estructura exacta:
+{"colores":[{"rol":"Primario|Secundario|Acento|Fondo|Texto|Otro","hex":"#RRGGBB"}],"tipografiaTitulos":"","tipografiaTexto":"","estilos":[],"fotografia":"","elementos":"","evitar":"","tono":"","valores":"","palabrasSi":"","palabrasNo":"","mensaje":"","publico":"","resumen":""}
+
+Reglas:
+- "colores": hasta ${MAX_COLORS}, con valor HEX. Si el manual da RGB o CMYK, convertilo a HEX aproximado.
+- "estilos": elegí solo entre: ${STYLE_OPTIONS.join(', ')}.
+- "tono": uno de estos valores exactos, o "": ${TONOS.map(t => t.v).join(' | ')}.
+- "fotografia", "elementos" y "evitar": describí el tipo de fotografía o ilustración, los elementos gráficos recurrentes y lo que el manual prohíbe o desaconseja visualmente.
+- "resumen": entre 120 y 200 palabras con las reglas más importantes (uso del logo, jerarquía tipográfica, espacios, qué sí y qué no).`;
+}
+async function analizarManual() {
+  if (!manualPdf) return;
+  if (!getApiKey()) { showToast('Configurá tu API Key primero'); return; }
+  const btn = document.getElementById('manual-analyze-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Analizando manual...';
+  try {
+    const raw = await callClaude({
+      content: [
+        { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: manualPdf.data } },
+        { type: 'text', text: analysisPrompt() }
+      ],
+      system: JSON_SYSTEM,
+      maxTokens: 2000
+    });
+    applyManualAnalysis(extractJson(raw));
+    manualNombre = manualPdf.name;
+    manualPdf = null;
+    showToast('Manual analizado. Revisá los campos completados.');
+  } catch (e) {
+    alert('No se pudo analizar el manual: ' + e.message);
+  }
+  btn.innerHTML = '<i class="ti ti-wand"></i> Analizar manual con IA';
+  updateManualUI();
+}
+function applyManualAnalysis(p) {
+  const setIfEmpty = (id, val) => {
+    const el = document.getElementById(id), v = str(val);
+    if (el && v && !el.value.trim()) el.value = v;
+  };
+  setIfEmpty('cfg-tipo-titulos', p.tipografiaTitulos);
+  setIfEmpty('cfg-tipo-texto', p.tipografiaTexto);
+  setIfEmpty('cfg-fotografia', p.fotografia);
+  setIfEmpty('cfg-elementos', p.elementos);
+  setIfEmpty('cfg-evitar', p.evitar);
+  setIfEmpty('cfg-valores', p.valores);
+  setIfEmpty('cfg-palabras-si', p.palabrasSi);
+  setIfEmpty('cfg-palabras-no', p.palabrasNo);
+  setIfEmpty('cfg-mensaje', p.mensaje);
+  setIfEmpty('cfg-publico', p.publico);
+
+  const tonoEl = document.getElementById('cfg-tono');
+  if (!tonoEl.value && TONOS.some(t => t.v === str(p.tono))) tonoEl.value = str(p.tono);
+
+  if (!brandColors.length && Array.isArray(p.colores)) {
+    brandColors = p.colores
+      .filter(c => c && typeof c.hex === 'string' && HEX_RE.test(c.hex.trim()))
+      .slice(0, MAX_COLORS)
+      .map(c => ({ rol: COLOR_ROLES.includes(c.rol) ? c.rol : 'Otro', hex: c.hex.trim().toUpperCase() }));
+  }
+  if (!brandStyles.length && Array.isArray(p.estilos)) {
+    brandStyles = p.estilos.filter(s => STYLE_OPTIONS.includes(s));
+  }
+  const resumen = str(p.resumen);
+  if (resumen) document.getElementById('cfg-resumen-manual').value = resumen;
+
+  renderColors(); renderChips();
+  openSection('sec-visual');
+}
+
+// ───────── REDES ACTIVAS ─────────
+const REDES_DEFAULT = { Instagram: true, Facebook: true, LinkedIn: true, YouTube: true, TikTok: true };
+const PRIORIDADES = ['Recomendada', 'Opcional', 'No por ahora'];
+const REC_CLASS = { 'Recomendada': 'rec-reco', 'Opcional': 'rec-opt', 'No por ahora': 'rec-no' };
+let redesState = { activas: { ...REDES_DEFAULT }, confirmada: false, recomendacion: null };
+let redesDraft = {};
+
+function loadRedes() {
+  try {
+    const s = JSON.parse(localStorage.getItem('pk_redes') || 'null');
+    if (s && s.activas) {
+      redesState = { activas: { ...REDES_DEFAULT, ...s.activas }, confirmada: !!s.confirmada, recomendacion: s.recomendacion || null };
+    }
+  } catch (e) {}
+}
+function persistRedes() {
+  try { localStorage.setItem('pk_redes', JSON.stringify(redesState)); } catch (e) {}
+}
+function canalesActivos() {
+  return CANALES.filter(c => PLATAFORMAS.some(p => p.canal === c && redesState.activas[p.id]));
+}
+function plataformasActivas(canal) {
+  return PLATAFORMAS.filter(p => p.canal === canal && redesState.activas[p.id]).map(p => p.id);
+}
+function plataformasDe(canal) {
+  if (canal !== 'Meta') return [canal];
+  const ps = plataformasActivas('Meta');
+  return ps.length ? ps : ['Instagram', 'Facebook'];
+}
+function canalInfo(canal) {
+  if (canal === 'Meta') {
+    const ps = plataformasActivas('Meta');
+    if (ps.length === 1) return { label: ps[0], icon: RED_ICONS[ps[0]] };
+    return { label: 'Meta', icon: RED_ICONS.Meta };
+  }
+  return { label: canal, icon: RED_ICONS[canal] };
+}
+function ensureActiveRed() {
+  const act = canalesActivos();
+  if (!act.includes(activeRed)) activeRed = act[0] || 'Meta';
+}
+// Une las publicaciones antiguas de Instagram y Facebook en el canal Meta (una sola vez)
+function migrateMeta() {
+  if (localStorage.getItem('pk_meta_migrated')) return;
+  try {
+    const legacy = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      const m = k && k.match(/^pk_posts_(Instagram|Facebook)_(\d{4}-\d{2}-\d{2})$/);
+      if (m) legacy.push({ k, plat: m[1], ws: m[2] });
+    }
+    legacy.forEach(({ k, plat, ws }) => {
+      const old = JSON.parse(localStorage.getItem(k) || '{}');
+      const nk = storageKey('Meta', ws);
+      const cur = JSON.parse(localStorage.getItem(nk) || '{}');
+      Object.keys(old).forEach(day => {
+        cur[day] = (cur[day] || []).concat((old[day] || []).map(p => ({ ...p, red: 'Meta', plataformas: [plat] })));
+      });
+      localStorage.setItem(nk, JSON.stringify(cur));
+      localStorage.removeItem(k);
+    });
+    localStorage.setItem('pk_meta_migrated', '1');
+  } catch (e) {}
+}
+function postCountsByCanal() {
+  const c = {};
+  getAllPosts().forEach(p => { c[p.red] = (c[p.red] || 0) + 1; });
+  return c;
+}
+
+// Reglas por canal (Meta combina Instagram + Facebook según lo activado)
+function getRules(canal) {
+  if (canal === 'Meta') {
+    const ps = plataformasDe('Meta');
+    if (ps.length === 1) return { ...RED_RULES[ps[0]], icon: RED_ICONS[ps[0]] };
+    return {
+      label: 'Meta (Instagram + Facebook)',
+      icon: RED_ICONS.Meta,
+      desc: 'Un mismo mensaje para ambas plataformas. La IA entrega una versión ajustada para cada una: Instagram (más corta, más hashtags) y Facebook (más conversacional, 2-3 hashtags).',
+      prompt: `RED: Meta (Instagram + Facebook). Es UN solo mensaje que se publica en ambas plataformas; adaptá solo lo técnico.
+REGLAS ESPECÍFICAS:
+- El mensaje, la idea y el gancho son los mismos en ambas plataformas
+- "copy": versión para INSTAGRAM: máximo 150 palabras, párrafos de 1-2 líneas, emojis estratégicos, 5-10 hashtags al final
+- "copyAlt": versión para FACEBOOK con la misma idea: 150-300 palabras, tono más conversacional, apertura con pregunta o dato, invitación explícita a comentar o compartir, máximo 2-3 hashtags
+- Para video: indicar estructura y duración ideal (Reels 15-60 segundos; en Facebook funcionan bien videos de 1-3 minutos)
+- El brief visual debe servir para ambas plataformas: usá 4:5 o 1:1 para feed y 9:16 para video vertical
+- Tono: cercano, auténtico, visualmente evocador`
+    };
+  }
+  return { ...RED_RULES[canal], icon: RED_ICONS[canal] };
+}
 function updateRedRules() {
   const red = document.getElementById('gen-red').value;
-  const rules = RED_RULES[red];
+  const rules = red ? getRules(red) : null;
   if (rules) {
-    document.getElementById('red-rules-box').innerHTML = `<strong><i class="ti ${RED_ICONS[red]}" style="margin-right:4px"></i>${rules.label}</strong>${rules.desc}`;
+    document.getElementById('red-rules-box').innerHTML = `<strong><i class="ti ${rules.icon}" style="margin-right:4px"></i>${esc(rules.label)}</strong>${esc(rules.desc)}`;
   }
 }
 
-// ── NAVIGATION ──
-function getMonday(d) {
-  const date = new Date(d); const day = date.getDay();
-  date.setDate(date.getDate() + (day === 0 ? -6 : 1 - day));
-  date.setHours(0,0,0,0); return date;
+function renderRedTabs() {
+  document.getElementById('redes-tabs').innerHTML = canalesActivos().map(c => {
+    const info = canalInfo(c);
+    return `<button class="red-tab${c === activeRed ? ' active' : ''}" data-red="${c}" onclick="switchRed('${c}')"><i class="ti ${info.icon}"></i><span>${esc(info.label)}</span></button>`;
+  }).join('');
 }
+function updateRedBanner() {
+  document.getElementById('redes-banner').style.display = redesState.confirmada ? 'none' : 'flex';
+}
+function populateFormats(keep) {
+  const red = document.getElementById('gen-red').value;
+  const sel = document.getElementById('gen-formato');
+  const prev = keep || sel.value;
+  const list = formatosDe(red);
+  sel.innerHTML = list.map(f => `<option>${esc(f)}</option>`).join('');
+  if (list.includes(prev)) sel.value = prev;
+}
+function populateGenRed(selected) {
+  const sel = document.getElementById('gen-red');
+  const act = canalesActivos();
+  sel.innerHTML = act.map(c => `<option value="${c}">${esc(canalInfo(c).label)}</option>`).join('');
+  sel.value = selected && act.includes(selected) ? selected : activeRed;
+  populateFormats();
+}
+function onGenRedChange() { populateFormats(); updateRedRules(); }
+function refreshChannels() {
+  ensureActiveRed(); renderRedTabs(); populateGenRed(); updateRedBanner(); renderAll(); updateRedRules();
+}
+
+// Panel "Redes sociales"
+function openRedes() {
+  redesDraft = { ...redesState.activas };
+  renderRedesPanel();
+  document.getElementById('redes-overlay').classList.add('open');
+}
+function closeRedes() { document.getElementById('redes-overlay').classList.remove('open'); }
+function onRedToggle(id, on) { redesDraft[id] = on; }
+
+function renderRedesPanel() {
+  const rec = redesState.recomendacion;
+  const counts = postCountsByCanal();
+  const tag = (l, v) => v ? `<span class="rec-tag"><b>${l}:</b> ${esc(v)}</span>` : '';
+  const row = p => {
+    const r = rec && rec.redes ? rec.redes[p.id] : null;
+    const badge = r ? `<span class="rec-badge ${REC_CLASS[r.prioridad] || 'rec-opt'}">${esc(r.prioridad)}</span>` : '';
+    const detail = r ? `<div class="rec-detail">${esc(r.motivo)}<div class="rec-tags">${tag('Rol', r.rol)}${tag('Frecuencia', r.frecuencia)}${tag('Mix', r.mix)}${tag('Formatos', r.formatos)}</div></div>` : '';
+    return `<div class="red-row">
+      <div class="red-row-top"><i class="ti ${p.icon}"></i><span class="red-row-name">${p.id}</span>${badge}
+        <label class="switch"><input type="checkbox" ${redesDraft[p.id] ? 'checked' : ''} onchange="onRedToggle('${p.id}',this.checked)" aria-label="Activar ${p.id}"><span class="slider"></span></label>
+      </div>${detail}</div>`;
+  };
+  const head = (title, canal) => {
+    const n = counts[canal] || 0;
+    return `<div class="red-card-head"><span>${title}</span><span class="field-hint">${n ? n + (n === 1 ? ' publicación guardada' : ' publicaciones guardadas') : ''}</span></div>`;
+  };
+  const by = c => PLATAFORMAS.filter(p => p.canal === c);
+  const card = (title, canal) => `<div class="red-card">${head(title, canal)}${by(canal).map(row).join('')}</div>`;
+  const resumen = rec ? `<div class="redes-resumen"><strong>Estrategia sugerida por la IA</strong>${rec.resumen ? esc(rec.resumen) : ''}
+      <div class="field-hint">Generada el ${esc(rec.fecha)}. Es una sugerencia: la decisión es tuya.</div>
+      <button class="btn btn-sm" onclick="aplicarRecomendacion()" style="align-self:flex-start;"><i class="ti ti-checks"></i> Aplicar recomendación</button></div>` : '';
+  document.getElementById('redes-list').innerHTML =
+    resumen + card('Meta · Instagram y Facebook', 'Meta') + card('LinkedIn', 'LinkedIn') + card('YouTube', 'YouTube') + card('TikTok', 'TikTok');
+}
+
+function redesPrompt() {
+  return `${buildBriefBlock()}
+
+== TAREA ==
+Actuá como estratega de redes sociales. A partir del brief, recomendá qué hacer con cada red social para ESTE negocio. Sé honesto: si una red no tiene sentido para este negocio (por su público, su producto o el esfuerzo de producción que exige), decilo. No inventes estadísticas ni datos de mercado.
+
+Redes a evaluar (usá estos nombres exactos): Instagram, Facebook, LinkedIn, YouTube, TikTok.
+
+Respondé SOLO con JSON válido, sin markdown, sin backticks, sin texto extra:
+{"resumen":"2 a 3 frases con la estrategia general y qué red priorizar","redes":[{"red":"Instagram","prioridad":"Recomendada | Opcional | No por ahora","motivo":"1 a 2 frases específicas para este negocio","rol":"papel de la red en la estrategia (ej: comunidad, captación, autoridad)","frecuencia":"ej: 3 publicaciones por semana","mix":"distribución sugerida de pilares en porcentajes (Humanizar, Captar clientes, Educar, Interacción, Posicionamiento)","formatos":"formatos recomendados"}]}
+Incluí exactamente una entrada por cada una de las 5 redes.`;
+}
+async function recomendarRedes() {
+  if (!getApiKey()) { showToast('Configurá tu API Key primero'); return; }
+  if (!config.nombre && !config.sector && !config.propuesta) {
+    showToast('Completá al menos nombre y sector en el Brief de marca');
+    return;
+  }
+  const btn = document.getElementById('rec-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Analizando tu negocio...';
+  try {
+    const raw = await callClaude({ content: redesPrompt(), system: JSON_SYSTEM, maxTokens: 2400 });
+    const p = extractJson(raw);
+    const redes = {};
+    (Array.isArray(p.redes) ? p.redes : []).forEach(r => {
+      if (!r || !PLATAFORMAS.some(x => x.id === r.red)) return;
+      redes[r.red] = {
+        prioridad: PRIORIDADES.includes(r.prioridad) ? r.prioridad : 'Opcional',
+        motivo: str(r.motivo), rol: str(r.rol), frecuencia: str(r.frecuencia), mix: str(r.mix), formatos: str(r.formatos)
+      };
+    });
+    if (!Object.keys(redes).length) throw new Error('La IA no devolvió recomendaciones. Probá de nuevo.');
+    redesState.recomendacion = { fecha: new Date().toLocaleDateString('es-AR'), resumen: str(p.resumen), redes };
+    persistRedes();
+    renderRedesPanel();
+    showToast('Recomendación lista. Revisá y activá las redes que quieras.');
+  } catch (e) {
+    alert('No se pudo generar la recomendación: ' + e.message);
+  }
+  btn.disabled = false; btn.innerHTML = '<i class="ti ti-sparkles"></i> Recomendar redes con IA';
+}
+function aplicarRecomendacion() {
+  const rec = redesState.recomendacion; if (!rec) return;
+  PLATAFORMAS.forEach(p => {
+    const r = rec.redes[p.id]; if (!r) return;
+    if (r.prioridad === 'Recomendada') redesDraft[p.id] = true;
+    else if (r.prioridad === 'No por ahora') redesDraft[p.id] = false;
+  });
+  renderRedesPanel();
+  showToast('Recomendación aplicada. Guardá para confirmar.');
+}
+function guardarRedes() {
+  if (!PLATAFORMAS.some(p => redesDraft[p.id])) { showToast('Activá al menos una red'); return; }
+  redesState.activas = { ...redesDraft };
+  redesState.confirmada = true;
+  persistRedes();
+  closeRedes();
+  refreshChannels();
+  showToast('Redes guardadas');
+}
+
+// ───────── NAVEGACIÓN ─────────
 function formatWeekLabel(monday) {
   const sunday = new Date(monday); sunday.setDate(sunday.getDate() + 6);
-  const opts = { day:'numeric', month:'short' };
+  const opts = { day: 'numeric', month: 'short' };
   return monday.toLocaleDateString('es-AR', opts) + ' – ' + sunday.toLocaleDateString('es-AR', opts);
 }
 function changeWeek(dir) { currentWeekStart.setDate(currentWeekStart.getDate() + dir * 7); renderAll(); }
 function goToday() { currentWeekStart = getMonday(new Date()); renderAll(); }
-function switchRed(red, el) {
-  activeRed = red;
-  document.querySelectorAll('.red-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active'); renderAll();
-}
+function switchRed(red) { activeRed = red; renderRedTabs(); renderAll(); }
 function filterPilar(pilar, el) {
   activePilar = pilar;
   document.querySelectorAll('.pilar-badge').forEach(b => b.classList.remove('active'));
   el.classList.add('active'); renderCalendar();
 }
 
-// ── METRICS ──
+// ───────── MÉTRICAS ─────────
 function renderMetrics() {
-  const all = getAllPosts();
+  const canales = canalesActivos();
+  const all = getAllPosts().filter(p => canales.includes(p.red));
   const byPilar = {}; PILARES_LIST.forEach(p => byPilar[p] = 0);
-  const byRed   = {}; REDES.forEach(r => byRed[r] = 0);
+  const byRed = {}; canales.forEach(r => byRed[r] = 0);
   all.forEach(p => { if (byPilar[p.pilar] !== undefined) byPilar[p.pilar]++; if (byRed[p.red] !== undefined) byRed[p.red]++; });
   const total = all.length;
 
   const pilaresEl = document.getElementById('metrics-pilares');
   pilaresEl.innerHTML = '';
   PILARES_LIST.forEach(pilar => {
-    const count = byPilar[pilar]; const pct = total > 0 ? Math.round((count/total)*100) : 0;
+    const count = byPilar[pilar]; const pct = total > 0 ? Math.round((count / total) * 100) : 0;
     const card = document.createElement('div'); card.className = `metric-card ${MC_PILAR[pilar]}`;
-    card.onclick = () => { const b = document.querySelector(`.pilar-badge[data-pilar="${pilar}"]`); if(b) filterPilar(pilar,b); };
-    card.innerHTML = `<div class="metric-card-label">${PILAR_LABELS[pilar]}</div><div class="metric-card-num">${count}</div><div class="metric-card-sub">${count===1?'publicación':'publicaciones'}${total>0?' · '+pct+'%':''}</div>`;
+    card.onclick = () => { const b = document.querySelector(`.pilar-badge[data-pilar="${pilar}"]`); if (b) filterPilar(pilar, b); };
+    card.innerHTML = `<div class="metric-card-label">${PILAR_LABELS[pilar]}</div><div class="metric-card-num">${count}</div><div class="metric-card-sub">${count === 1 ? 'publicación' : 'publicaciones'}${total > 0 ? ' · ' + pct + '%' : ''}</div>`;
     pilaresEl.appendChild(card);
   });
 
   const redesEl = document.getElementById('metrics-redes');
   redesEl.innerHTML = '';
-  REDES.forEach(red => {
-    const count = byRed[red]; const pct = total > 0 ? Math.round((count/total)*100) : 0;
+  redesEl.style.setProperty('--cols', canales.length);
+  canales.forEach(red => {
+    const info = canalInfo(red);
+    const count = byRed[red]; const pct = total > 0 ? Math.round((count / total) * 100) : 0;
     const card = document.createElement('div'); card.className = `metric-card ${MC_RED[red]}`;
-    card.onclick = () => switchRed(red, document.querySelector(`.red-tab[data-red="${red}"]`));
-    card.innerHTML = `<div class="metric-card-label"><i class="ti ${RED_ICONS[red]}" style="font-size:12px;opacity:0.8"></i>${red}</div><div class="metric-card-num">${count}</div><div class="metric-card-sub">${count===1?'publicación':'publicaciones'}${total>0?' · '+pct+'%':''}</div>`;
+    card.onclick = () => switchRed(red);
+    card.innerHTML = `<div class="metric-card-label"><i class="ti ${info.icon}" style="font-size:12px;opacity:0.8"></i>${esc(info.label)}</div><div class="metric-card-num">${count}</div><div class="metric-card-sub">${count === 1 ? 'publicación' : 'publicaciones'}${total > 0 ? ' · ' + pct + '%' : ''}</div>`;
     redesEl.appendChild(card);
   });
 }
 
-// ── CALENDAR ──
+// ───────── CALENDARIO ─────────
 function renderCalendar() {
   const posts = getPostsForWeekRed();
-  const grid  = document.getElementById('calendar-grid');
+  const grid = document.getElementById('calendar-grid');
   grid.innerHTML = '';
   document.getElementById('week-label').textContent = formatWeekLabel(currentWeekStart);
-  const today = new Date(); today.setHours(0,0,0,0);
+  const today = new Date(); today.setHours(0, 0, 0, 0);
 
   for (let i = 0; i < 7; i++) {
     const day = new Date(currentWeekStart); day.setDate(day.getDate() + i);
@@ -709,11 +1428,13 @@ function renderCalendar() {
     hdr.innerHTML = `<div class="day-name">${DAYS[i]}</div>`; hdr.appendChild(num); col.appendChild(hdr);
 
     const body = document.createElement('div'); body.className = 'day-body';
-    (posts[dayKey]||[]).filter(p => activePilar==='todos' || p.pilar===activePilar).forEach((post, idx) => {
+    (posts[dayKey] || []).forEach((post, idx) => {
+      if (activePilar !== 'todos' && post.pilar !== activePilar) return;
       const dot = PILAR_DOT[post.pilar] || '#888'; const ptxt = PILAR_TEXT[post.pilar] || '#444';
       const card = document.createElement('div'); card.className = 'content-card';
       card.onclick = () => openPostDetail(dayKey, idx);
-      card.innerHTML = `<div class="card-meta"><span class="card-pilar-dot" style="background:${dot}"></span><span style="color:${ptxt}">${post.pilar}</span></div><div class="card-hook">${post.hook||post.copy.substring(0,55)+'...'}</div><span class="card-format-badge"><i class="ti ${FORMAT_ICONS[post.formato]||'ti-file'}"></i>${post.formato}</span>`;
+      const hook = post.hook || (post.copy || '').substring(0, 55) + '...';
+      card.innerHTML = `<div class="card-meta"><span class="card-pilar-dot" style="background:${dot}"></span><span style="color:${ptxt}">${esc(PILAR_LABELS[post.pilar] || post.pilar)}</span></div><div class="card-hook">${esc(hook)}</div><span class="card-format-badge"><i class="ti ${FORMAT_ICONS[post.formato] || 'ti-file'}"></i>${esc(post.formato)}</span>`;
       body.appendChild(card);
     });
 
@@ -723,54 +1444,54 @@ function renderCalendar() {
     body.appendChild(add); col.appendChild(body); grid.appendChild(col);
   }
 }
-
 function renderAll() { renderMetrics(); renderCalendar(); }
 
-// ── IMAGE UPLOAD ──
-function handleImageUpload(event) {
-  const file = event.target.files[0];
+// ───────── PANEL GENERADOR ─────────
+async function handleRefImage(event) {
+  const file = event.target.files[0]; event.target.value = '';
   if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    brandImageBase64 = e.target.result;
-    const preview = document.getElementById('brand-img-preview');
-    preview.src = brandImageBase64;
-    preview.style.display = 'block';
-    document.getElementById('brand-img-status').style.display = 'block';
-  };
-  reader.readAsDataURL(file);
+  try {
+    refImage = await compressImage(file);
+    const preview = document.getElementById('ref-img-preview');
+    preview.src = refImage; preview.style.display = 'block';
+    document.getElementById('ref-img-status').style.display = 'block';
+  } catch (e) { showToast('No se pudo leer la imagen'); }
 }
-
-// ── PANEL ──
+function resetRefImage() {
+  refImage = null;
+  document.getElementById('ref-img-preview').style.display = 'none';
+  document.getElementById('ref-img-status').style.display = 'none';
+}
 function openGenerator(dayKey) {
   pendingDay = dayKey;
-  document.getElementById('gen-red').value = activeRed;
+  populateGenRed(activeRed);
   document.getElementById('gen-result').innerHTML = '';
   document.getElementById('gen-actions').style.display = 'none';
   document.getElementById('gen-contexto').value = '';
+  resetRefImage();
   lastGenerated = null;
+  document.getElementById('brief-hint').style.display = (!config.nombre && !config.propuesta) ? 'flex' : 'none';
   document.getElementById('panel-title').textContent = dayKey ? `Nuevo contenido · ${formatDayLabel(dayKey)}` : 'Generador de ideas con IA';
   document.getElementById('gen-overlay').classList.add('open');
   document.getElementById('gen-panel').classList.add('open');
   updateRedRules();
 }
-
 function formatDayLabel(dayKey) {
-  const d = new Date(dayKey+'T12:00:00');
-  return d.toLocaleDateString('es-AR', { weekday:'short', day:'numeric', month:'short' });
+  const d = new Date(dayKey + 'T12:00:00');
+  return d.toLocaleDateString('es-AR', { weekday: 'short', day: 'numeric', month: 'short' });
 }
 function closePanel() {
   document.getElementById('gen-overlay').classList.remove('open');
   document.getElementById('gen-panel').classList.remove('open');
 }
-
 function openPostDetail(dayKey, idx) {
   const posts = getPostsForWeekRed();
-  const post = (posts[dayKey]||[])[idx]; if(!post) return;
+  const post = (posts[dayKey] || [])[idx]; if (!post) return;
   pendingDay = dayKey;
-  document.getElementById('gen-pilar').value   = post.pilar;
-  document.getElementById('gen-red').value     = post.red || activeRed;
-  document.getElementById('gen-formato').value = post.formato;
+  populateGenRed(post.red);
+  populateFormats(post.formato);
+  document.getElementById('gen-pilar').value = post.pilar;
+  document.getElementById('brief-hint').style.display = 'none';
   document.getElementById('panel-title').textContent = 'Detalle del contenido';
   document.getElementById('gen-overlay').classList.add('open');
   document.getElementById('gen-panel').classList.add('open');
@@ -778,123 +1499,128 @@ function openPostDetail(dayKey, idx) {
   showGenResult(post); lastGenerated = post;
   const actEl = document.getElementById('gen-actions'); actEl.style.display = 'flex';
   actEl.innerHTML = `
-    <button class="btn" onclick="generarIdea()" style="width:100%;justify-content:center;"><i class="ti ti-refresh"></i> Regenerar variante</button>
+    <button class="btn" onclick="generarIdea()" style="width:100%;justify-content:center;"><i class="ti ti-refresh"></i> Generar otra variante</button>
     <button class="btn btn-danger" onclick="deletePost('${dayKey}',${idx})" style="width:100%;justify-content:center;"><i class="ti ti-trash"></i> Eliminar publicación</button>`;
 }
-
 function deletePost(dayKey, idx) {
   const posts = getPostsForWeekRed();
-  if(posts[dayKey]) { posts[dayKey].splice(idx,1); savePostsForWeekRed(posts); }
+  if (posts[dayKey]) { posts[dayKey].splice(idx, 1); savePostsForWeekRed(posts); }
   closePanel(); renderAll(); showToast('Publicación eliminada');
 }
 
-// ── GENERATOR ──
-async function generarIdea() {
-  const apiKey = getApiKey();
-  if (!apiKey) { showToast('Configurá tu API Key primero'); return; }
+// ───────── GENERADOR ─────────
+function buildBriefBlock() {
+  const c = config;
+  const line = (label, val) => (val ? `${label}: ${val}` : '');
+  return [
+    '== BRIEF DE MARCA ==',
+    line('NEGOCIO', c.nombre || 'un negocio'),
+    line('SECTOR', c.sector),
+    line('PAÍS / MERCADO', c.pais),
+    line('IDIOMA DEL CONTENIDO', c.idioma || IDIOMAS[0]),
+    line('PRODUCTOS/SERVICIOS', c.productos),
+    line('HISTORIA/ORIGEN', c.historia),
+    line('PROPUESTA DE VALOR', c.propuesta),
+    line('MENSAJE CENTRAL/POSICIONAMIENTO', c.mensaje),
+    line('DIFERENCIACIÓN', c.diferenciacion),
+    line('CONTEXTO ACTUAL', c.contextoMarca),
+    line('PÚBLICO OBJETIVO', c.publico),
+    line('TONO', c.tono),
+    line('VALORES/QUÉ TRANSMITIR', c.valores),
+    line('PALABRAS QUE SÍ REPRESENTAN LA MARCA', c.palabrasSi),
+    line('PALABRAS QUE NO REPRESENTAN LA MARCA', c.palabrasNo),
+    line('AUTENTICIDAD DE LA MARCA', c.conexion)
+  ].filter(Boolean).join('\n');
+}
 
-  const pilar    = document.getElementById('gen-pilar').value;
-  const red      = document.getElementById('gen-red').value;
-  const formato  = document.getElementById('gen-formato').value;
-  const contexto = document.getElementById('gen-contexto').value;
+function buildPrompt({ pilar, red, formato, contexto }) {
+  const c = config;
+  const line = (label, val) => (val ? `${label}: ${val}` : '');
+  const colores = (c.colores || []).map(x => `${x.rol} ${x.hex}`).join(', ');
+  const tipos = [c.tipoTitulos && `Títulos: ${c.tipoTitulos}`, c.tipoTexto && `Texto: ${c.tipoTexto}`].filter(Boolean).join(' · ');
+  const estilos = (c.estilos || []).join(', ');
 
-  const btn = document.getElementById('gen-btn');
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Generando...';
-  const resultEl  = document.getElementById('gen-result');
-  const actionsEl = document.getElementById('gen-actions');
-  resultEl.innerHTML  = '<div class="spinner-wrap"><span class="spinner"></span> La IA está creando tu contenido...</div>';
-  actionsEl.style.display = 'none';
+  let imgNote = '';
+  if (brandImages.length) imgNote += `Se adjuntan ${brandImages.length} imagen(es) de la marca (logo, productos o referencias) al inicio del mensaje. `;
+  if (refImage) imgNote += 'La última imagen adjunta es la referencia específica para esta pieza. ';
 
-  // Brand Brief completo
-  const empresa       = config.nombre         || 'la empresa';
-  const sector        = config.sector         || 'marketing digital';
-  const productos     = config.productos      || '';
-  const historia      = config.historia       || '';
-  const propuesta     = config.propuesta      || 'ayudar a empresas a crecer';
-  const mensaje       = config.mensaje        || '';
-  const diferenciacion= config.diferenciacion || '';
-  const contextoMarca = config.contextoMarca  || '';
-  const publico       = config.publico        || 'empresas y emprendedores';
-  const tono          = config.tono           || 'profesional y cercano';
-  const valores       = config.valores        || '';
-  const palabrasSi    = config.palabrasSi     || '';
-  const palabrasNo    = config.palabrasNo     || '';
-  const conexion      = config.conexion       || '';
+  const visual = [
+    line('COLORES (HEX)', colores),
+    line('TIPOGRAFÍAS', tipos),
+    line('ESTILO VISUAL', estilos),
+    line('FOTOGRAFÍA/ILUSTRACIÓN', c.fotografia),
+    line('ELEMENTOS GRÁFICOS', c.elementos),
+    line('EVITAR VISUALMENTE', c.evitar),
+    line('RESUMEN DEL MANUAL DE MARCA', c.resumenManual)
+  ].filter(Boolean);
+  const visualBlock = visual.length ? '\n\n== IDENTIDAD VISUAL ==\n' + visual.join('\n') : '';
 
-  const redRules = RED_RULES[red]?.prompt || '';
-  const tieneImagen = !!brandImageBase64;
+  const rules = getRules(red);
+  const dual = red === 'Meta' && plataformasDe('Meta').length > 1;
+  const copyDesc = dual
+    ? 'copy completo para INSTAGRAM, listo para publicar, con emojis y hashtags al final'
+    : `copy completo listo para publicar, adaptado al tono y algoritmo de ${rules.label}, con emojis si aplica y hashtags al final si aplica`;
+  const altDesc = dual
+    ? ',"copyAlt":"la MISMA idea adaptada a FACEBOOK: más conversacional, con pregunta o invitación a comentar y 2-3 hashtags"'
+    : '';
 
-  const prompt = `Sos un experto en marketing de contenidos para redes sociales en Argentina y LATAM.
-
-== BRIEF DE MARCA ==
-EMPRESA: ${empresa}
-SECTOR: ${sector}
-${productos ? 'PRODUCTOS/SERVICIOS: '+productos : ''}
-${historia ? 'HISTORIA/ORIGEN: '+historia : ''}
-PROPUESTA DE VALOR: ${propuesta}
-${mensaje ? 'MENSAJE CENTRAL/POSICIONAMIENTO: '+mensaje : ''}
-${diferenciacion ? 'DIFERENCIACIÓN: '+diferenciacion : ''}
-${contextoMarca ? 'CONTEXTO ACTUAL: '+contextoMarca : ''}
-PÚBLICO OBJETIVO: ${publico}
-TONO: ${tono}
-${valores ? 'VALORES/QUÉ TRANSMITIR: '+valores : ''}
-${palabrasSi ? 'PALABRAS QUE SÍ REPRESENTAN LA MARCA: '+palabrasSi : ''}
-${palabrasNo ? 'PALABRAS QUE NO REPRESENTAN LA MARCA: '+palabrasNo : ''}
-${conexion ? 'AUTENTICIDAD DE LA MARCA: '+conexion : ''}
+  return `${buildBriefBlock()}${visualBlock}
 
 == PARÁMETROS DE PUBLICACIÓN ==
 PILAR DE CONTENIDO: ${pilar}
 FORMATO: ${formato}
-${contexto ? 'CONTEXTO/TEMA ESPECÍFICO: '+contexto : ''}
-${tieneImagen ? 'NOTA: El usuario adjuntó una imagen de referencia visual de la marca. Considerala para el brief visual.' : ''}
+${contexto ? 'CONTEXTO/TEMA ESPECÍFICO: ' + contexto : ''}
+${imgNote}
 
-${redRules}
+${rules.prompt}
 
 == INSTRUCCIÓN ==
-Generá una publicación 100% específica para esta marca, adaptada al estilo de ${red}. 
-NO seas genérico. Usá el brief de marca para que el contenido suene auténtico y diferenciado.
+Generá una publicación 100% específica para este negocio, adaptada al estilo de ${rules.label}, escrita en el idioma y variante indicados.
+NO seas genérico: usá el brief para que el contenido suene auténtico y diferenciado.
+En el brief visual usá los colores HEX y las tipografías indicados (si existen), respetá el estilo y evitá lo que figure en "evitar visualmente".
 
 Respondé SOLO con JSON válido, sin markdown, sin backticks, sin texto extra:
-{"hook":"gancho de apertura potente y específico para la marca, max 15 palabras","copy":"copy completo listo para publicar, adaptado al tono y algoritmo de ${red}, con emojis si aplica y hashtags al final si aplica","visual":"descripción detallada de la imagen o video para briefear al diseñador o usar en Midjourney: composición, colores (coherentes con la marca), elementos, texto en imagen, estilo visual, mood, referencias estéticas","cta":"llamada a la acción específica y coherente con el pilar y la red","notas":"notas de producción para ${red}: dimensiones recomendadas, duración si es video, tips de formato, mejor horario de publicación"}`;
+{"hook":"gancho de apertura potente y específico, max 15 palabras","copy":"${copyDesc}"${altDesc},"visual":"descripción detallada de la imagen o video para briefear a un diseñador o usar en una IA generativa: composición, colores (HEX de la marca), elementos, texto en imagen, tipografía, estilo visual, mood, referencias estéticas","cta":"llamada a la acción específica y coherente con el pilar y la red","notas":"notas de producción para ${rules.label}: dimensiones recomendadas, duración si es video, tips de formato, mejor horario de publicación"}`;
+}
+
+async function generarIdea() {
+  if (!getApiKey()) { showToast('Configurá tu API Key primero'); return; }
+
+  const pilar = document.getElementById('gen-pilar').value;
+  const red = document.getElementById('gen-red').value;
+  const formato = document.getElementById('gen-formato').value;
+  const contexto = document.getElementById('gen-contexto').value.trim();
+
+  const btn = document.getElementById('gen-btn');
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Generando...';
+  const resultEl = document.getElementById('gen-result');
+  const actionsEl = document.getElementById('gen-actions');
+  resultEl.innerHTML = '<div class="spinner-wrap"><span class="spinner"></span> La IA está creando tu contenido...</div>';
+  actionsEl.style.display = 'none';
 
   try {
-    // Construir el mensaje — con imagen si fue subida
-    let messageContent;
-    if (brandImageBase64) {
-      const base64Data = brandImageBase64.split(',')[1];
-      const mimeType   = brandImageBase64.split(';')[0].split(':')[1];
-      messageContent = [
-        { type: 'image', source: { type: 'base64', media_type: mimeType, data: base64Data } },
-        { type: 'text', text: prompt }
-      ];
-    } else {
-      messageContent = prompt;
-    }
+    const prompt = buildPrompt({ pilar, red, formato, contexto });
+    const imgs = [...brandImages, ...(refImage ? [refImage] : [])].map(toImageBlock);
+    const content = imgs.length ? [...imgs, { type: 'text', text: prompt }] : prompt;
 
-    const resp = await fetch('/.netlify/functions/claude', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt: messageContent, apiKey, hasImage: !!brandImageBase64 })
-    });
+    const raw = await callClaude({ content, system: JSON_SYSTEM, maxTokens: 2200 });
+    const parsed = extractJson(raw);
 
-    if (!resp.ok) {
-      const err = await resp.json().catch(() => ({}));
-      throw new Error(err.error?.message || `Error ${resp.status}`);
-    }
-
-    const data   = await resp.json();
-    const raw    = data.content.map(b => b.text||'').join('');
-    const parsed = JSON.parse(raw.replace(/```json|```/g,'').trim());
-
-    lastGenerated = { pilar, red, formato, hook:parsed.hook, copy:parsed.copy, visual:parsed.visual, cta:parsed.cta, notas:parsed.notas };
+    const plats = plataformasDe(red);
+    const dual = red === 'Meta' && plats.length > 1;
+    lastGenerated = {
+      pilar, red, formato, plataformas: plats,
+      hook: str(parsed.hook), copy: str(parsed.copy),
+      ...(dual && str(parsed.copyAlt) ? { copyAlt: str(parsed.copyAlt) } : {}),
+      visual: str(parsed.visual), cta: str(parsed.cta), notas: str(parsed.notas)
+    };
     showGenResult(lastGenerated);
     actionsEl.style.display = 'flex';
     actionsEl.innerHTML = `
       <button class="btn btn-dark" onclick="guardarEnCalendario()" style="width:100%;justify-content:center;padding:10px;"><i class="ti ti-calendar-plus"></i> Guardar en el calendario</button>
       <button class="btn" onclick="generarIdea()" style="width:100%;justify-content:center;"><i class="ti ti-refresh"></i> Regenerar</button>`;
-
-  } catch(e) {
-    resultEl.innerHTML = `<div style="padding:14px;color:#7a3030;font-size:13px;background:#fdf0f0;border-radius:8px;border:1px solid #e8c4c4;"><strong>Error al generar</strong><br>${e.message}<br><br><small>Verificá tu API Key en el botón "API Key".</small></div>`;
+  } catch (e) {
+    resultEl.innerHTML = `<div style="padding:14px;color:#7a3030;font-size:13px;background:#fdf0f0;border-radius:8px;border:1px solid #e8c4c4;"><strong>Error al generar</strong><br>${esc(e.message)}<br><br><small>Si el problema persiste, verificá tu API Key con el botón "API Key".</small></div>`;
   }
 
   btn.disabled = false;
@@ -902,6 +1628,16 @@ Respondé SOLO con JSON válido, sin markdown, sin backticks, sin texto extra:
 }
 
 function showGenResult(post) {
+  const plats = post.plataformas || [];
+  const t1 = post.red === 'Meta' && plats[0] ? `Copy completo — ${plats[0]}` : 'Copy completo';
+  const t2 = `Copy completo — ${plats[1] || 'Facebook'}`;
+  const alt = post.copyAlt ? `
+      <div class="result-divider"></div>
+      <div class="result-section">
+        <div class="result-section-title">${esc(t2)}</div>
+        <div class="result-text">${escHtml(post.copyAlt)}</div>
+        <button class="btn btn-sm result-copy-btn" onclick="copyField('copyAlt')"><i class="ti ti-copy"></i> Copiar</button>
+      </div>` : '';
   document.getElementById('gen-result').innerHTML = `
     <div class="result-block">
       <div class="result-section">
@@ -910,15 +1646,15 @@ function showGenResult(post) {
       </div>
       <div class="result-divider"></div>
       <div class="result-section">
-        <div class="result-section-title">Copy completo</div>
+        <div class="result-section-title">${esc(t1)}</div>
         <div class="result-text">${escHtml(post.copy)}</div>
-        <button class="btn btn-sm result-copy-btn" onclick="copyText(${JSON.stringify(post.copy)})"><i class="ti ti-copy"></i> Copiar</button>
-      </div>
+        <button class="btn btn-sm result-copy-btn" onclick="copyField('copy')"><i class="ti ti-copy"></i> Copiar</button>
+      </div>${alt}
       <div class="result-divider"></div>
       <div class="result-section">
         <div class="result-section-title">Brief visual</div>
         <div class="result-text" style="color:var(--text-secondary);">${escHtml(post.visual)}</div>
-        <button class="btn btn-sm result-copy-btn" onclick="copyText(${JSON.stringify(post.visual)})"><i class="ti ti-copy"></i> Copiar</button>
+        <button class="btn btn-sm result-copy-btn" onclick="copyField('visual')"><i class="ti ti-copy"></i> Copiar</button>
       </div>
       <div class="result-divider"></div>
       <div class="result-section">
@@ -935,31 +1671,30 @@ function showGenResult(post) {
 
 function guardarEnCalendario() {
   if (!lastGenerated) return;
-  if (!pendingDay) pendingDay = weekStr(new Date());
-  const posts = getPostsForWeekRed();
-  if (!posts[pendingDay]) posts[pendingDay] = [];
-  posts[pendingDay].push(lastGenerated);
-  savePostsForWeekRed(posts); closePanel(); renderAll();
-  showToast('Publicación guardada en el calendario');
+  const day = pendingDay || weekStr(new Date());
+  const post = { ...lastGenerated };
+  let monday;
+  try { monday = savePostToCalendar(post, day); }
+  catch (e) { showToast('No se pudo guardar: almacenamiento lleno'); return; }
+  activeRed = post.red;
+  currentWeekStart = monday;
+  renderRedTabs();
+  closePanel(); renderAll();
+  showToast(`Guardado en ${canalInfo(post.red).label}`);
 }
 
-function escHtml(str) {
-  if (!str) return '';
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
-}
-function copyText(text) {
-  navigator.clipboard.writeText(text).then(() => showToast('Texto copiado')).catch(() => showToast('No se pudo copiar'));
-}
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2400);
-}
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if (document.getElementById('redes-overlay').classList.contains('open')) closeRedes();
+  else if (document.getElementById('config-overlay').classList.contains('open')) closeConfig();
+  else closePanel();
+});
 
-// ── BOOT ──
-const storedKey = getApiKey();
-if (storedKey) { bootApp(); }
+// ───────── ARRANQUE ─────────
+initBriefSelects();
+if (getApiKey()) { bootApp(); }
 else { document.getElementById('setup-screen').style.display = 'flex'; }
+
 </script>
 </body>
 </html>

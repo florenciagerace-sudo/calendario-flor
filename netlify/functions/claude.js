@@ -1,10 +1,24 @@
-exports.handler = async function(event) {
+const DEFAULT_SYSTEM =
+  'Sos un experto en marketing de contenidos para redes sociales. Respondé SOLO con JSON válido, sin markdown, sin backticks y sin texto extra.';
+
+function reply(statusCode, body) {
+  return {
+    statusCode,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  };
+}
+
+exports.handler = async function (event) {
   if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
+    return reply(405, { error: { message: 'Method Not Allowed' } });
   }
 
   try {
-    const { prompt, apiKey } = JSON.parse(event.body);
+    const { content, apiKey, system, maxTokens } = JSON.parse(event.body || '{}');
+
+    if (!apiKey) return reply(400, { error: { message: 'Falta la API Key.' } });
+    if (!content) return reply(400, { error: { message: 'Falta el contenido del mensaje.' } });
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -15,27 +29,15 @@ exports.handler = async function(event) {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
-        max_tokens: 1200,
-        system: 'Sos un experto en marketing de contenidos para redes sociales en Argentina. Respondé siempre en español. Respondé SOLO con JSON válido, sin markdown, sin backticks, sin texto extra.',
-        messages: [{ role: 'user', content: prompt }]
+        max_tokens: Math.min(Number(maxTokens) || 1500, 4000),
+        system: system || DEFAULT_SYSTEM,
+        messages: [{ role: 'user', content }]
       })
     });
 
     const data = await response.json();
-
-    return {
-      statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify(data)
-    };
-
+    return reply(response.status, data);
   } catch (err) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: err.message })
-    };
+    return reply(500, { error: { message: err.message } });
   }
 };
